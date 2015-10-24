@@ -91,6 +91,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Li Jiahao\Desktop\Year 3 --- Sem 1\CS2103 Softwar Engineering\Doowado-master\Doowado-master\Doowado - Task Manager\Doowado - Task Manager;E:\Resources\boost_1_59_0\boost_1_59_0</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -135,11 +136,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Doowado - Task Manager\Doowado - Task Manager.vcxproj">
-      <Project>{a0d2e2cd-8ff0-4644-81b4-d205681588b9}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -148,16 +144,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="MessageManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI.h">
       <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="MessageManager.h">
+      <DeploymentContent>true</DeploymentContent>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI.resx">
       <DependentUpon>GUI.h</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Doowado-master\Doowado-master\Doowado - Task Manager\Doowado - Task Manager\Doowado - Task Manager.vcxproj">
+      <Project>{a0d2e2cd-8ff0-4644-81b4-d205681588b9}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
