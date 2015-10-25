@@ -74,6 +74,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -91,7 +92,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Li Jiahao\Desktop\Year 3 --- Sem 1\CS2103 Softwar Engineering\Doowado-master\Doowado-master\Doowado - Task Manager\Doowado - Task Manager;E:\Resources\boost_1_59_0\boost_1_59_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Anthony\Documents\Visual Studio 2015\Projects\Doowado\Doowado - Task Manager\Doowado - Task Manager;C:\local\boost_1_59_0</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -144,14 +145,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GUI.cpp" />
-    <ClCompile Include="MessageManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI.h">
       <FileType>CppForm</FileType>
-    </ClInclude>
-    <ClInclude Include="MessageManager.h">
-      <DeploymentContent>true</DeploymentContent>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

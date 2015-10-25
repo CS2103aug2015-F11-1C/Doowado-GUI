@@ -11,8 +11,6 @@
 #include "Display.h"
 
 
-
-
 class Controller {
 private:
 	UserInterface* UI;
