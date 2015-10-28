@@ -299,23 +299,23 @@ namespace DoowadoGUI {
 			}
 
 			// Minimize via Ctrl + W
-			if (e->KeyCode == (Keys::ControlKey | Keys::W)) {
+			if (e->KeyData == (Keys::Control | Keys::W)) {
 				WindowState = FormWindowState::Minimized;
 			}
 
 			// Exit via Ctrl + Q
-			if (e->KeyCode == (Keys::ControlKey | Keys::Q)) {
+			if (e->KeyData == (Keys::Control | Keys::Q)) {
 				MessageBox::Show("Good bye!");
 				Application::Exit();
 			}
 
 			// Undo via Ctrl + Z
-			if (e->KeyCode == (Keys::ControlKey | Keys::Z)) {
+			if (e->KeyData == (Keys::Control | Keys::Z)) {
 				processInput("undo");
 			}
 
 			// Redo via Ctrl + R
-			if (e->KeyCode == (Keys::ControlKey | Keys::R)) {
+			if (e->KeyData == (Keys::Control | Keys::R)) {
 				processInput("redo");
 			}
 		}
@@ -355,7 +355,7 @@ namespace DoowadoGUI {
 				feedbackLabel->Text = "add <Entry name> on <DD/MM/YYYY or day> from <start time> to <end time>";
 			}
 			else if (inputBox->Text == "edit") {
-				feedbackLabel->Text = "edit <index> <what to change>";
+				feedbackLabel->Text = "edit <index> <Entry name> start/end <start/end time>";
 			}
 			else if (inputBox->Text == "show") {
 				feedbackLabel->Text = "show <date / day / incomplete / completed>";
@@ -365,6 +365,9 @@ namespace DoowadoGUI {
 			}
 			else if (inputBox->Text == "undo") {
 				feedbackLabel->Text = "undo";
+			}
+			else if (inputBox->Text == "save") {
+				feedbackLabel->Text = "save <new directory>";
 			}
 			else if (inputBox->Text == "") {
 				feedbackLabel->Text = "add / edit / show / delete / undo / save";
