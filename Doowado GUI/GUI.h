@@ -113,6 +113,7 @@ namespace DoowadoGUI {
 			this->inputBox->Enter += gcnew System::EventHandler(this, &GUI::inputBox_Enter);
 			this->inputBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::inputBox_KeyDown);
 			this->inputBox->Leave += gcnew System::EventHandler(this, &GUI::inputBox_Leave);
+			this->inputBox->TabIndex = 1;
 			// 
 			// label1
 			// 
@@ -126,6 +127,7 @@ namespace DoowadoGUI {
 			this->label1->TabIndex = 1;
 			this->label1->Text = L"INPUT COMMAND";
 			this->label1->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			this->label1->TabStop = false;
 			// 
 			// FeedbackDisplay
 			// 
@@ -140,6 +142,7 @@ namespace DoowadoGUI {
 			this->FeedbackDisplay->Size = System::Drawing::Size(1096, 104);
 			this->FeedbackDisplay->TabIndex = 5;
 			this->FeedbackDisplay->Text = L"";
+			this->FeedbackDisplay->TabIndex = 2;
 			// 
 			// EventListDisplay
 			// 
@@ -154,6 +157,7 @@ namespace DoowadoGUI {
 			this->EventListDisplay->TabIndex = 3;
 			this->EventListDisplay->UseCompatibleStateImageBehavior = false;
 			this->EventListDisplay->View = System::Windows::Forms::View::Details;
+			this->EventListDisplay->TabStop = false;
 			// 
 			// EventID
 			// 
@@ -199,6 +203,7 @@ namespace DoowadoGUI {
 			this->label2->TabIndex = 12;
 			this->label2->Text = L"Welcome to Doowado";
 			this->label2->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			this->label2->TabStop = false;
 			// 
 			// todayDateTime
 			// 
@@ -215,6 +220,7 @@ namespace DoowadoGUI {
 			this->todayDateTime->TabIndex = 13;
 			this->todayDateTime->Value = System::DateTime::Today;
 			this->todayDateTime->ValueChanged += gcnew System::EventHandler(this, &GUI::todayDateTime_ValueChanged);
+			this->todayDateTime->TabStop = false;
 			// 
 			// TaskListDisplay
 			// 
@@ -228,6 +234,7 @@ namespace DoowadoGUI {
 			this->TaskListDisplay->TabIndex = 14;
 			this->TaskListDisplay->UseCompatibleStateImageBehavior = false;
 			this->TaskListDisplay->View = System::Windows::Forms::View::Details;
+			this->TaskListDisplay->TabStop = false;
 			// 
 			// TaskID
 			// 
@@ -259,6 +266,7 @@ namespace DoowadoGUI {
 			this->feedbackLabel->TabIndex = 15;
 			this->feedbackLabel->Text = L"add / edit / show / delete / undo / save";
 			this->feedbackLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			this->feedbackLabel->TabStop = false;
 			// 
 			// GUI
 			// 
@@ -315,6 +323,10 @@ namespace DoowadoGUI {
 				getFeedbackList();
 
 				inputBox->Clear();
+
+				this->ActiveControl = FeedbackDisplay;
+
+				e->Handled = true;
 			}
 			
 			// Minimize via Ctrl + W
@@ -379,7 +391,7 @@ namespace DoowadoGUI {
 				feedbackLabel->Text = "edit <index> <what to change>";
 			}
 			else if (inputBox->Text == "show") {
-				feedbackLabel->Text = "show <date / day / incomplete / completed>";
+				feedbackLabel->Text = "show <date / day>";
 			}
 			else if (inputBox->Text == "delete") {
 				feedbackLabel->Text = "delete <index>";
@@ -387,14 +399,25 @@ namespace DoowadoGUI {
 			else if (inputBox->Text == "undo") {
 				feedbackLabel->Text = "undo";
 			}
+			else if (inputBox->Text == "search") {
+				feedbackLabel->Text == "search <keyword>";
+			}
 			else if (inputBox->Text == ""){
-				feedbackLabel->Text = "add / edit / show / delete / undo / save";
+				feedbackLabel->Text = "add / edit / show / search / delete / undo / save";
 			}
 		}
 
 	private: 
 		System::Void todayDateTime_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
 			String^ chosenDate = gcnew String(this->todayDateTime->Value.ToString("dd/MM/yyyy"));
+
+			Controller->processInput("show " + chosenDate);
+
+			EventListDisplay->Items->Clear();
+			getListofEvents();
+
+			TaskListDisplay->Items->Clear();
+			getListofTasks();
 		}
 
 	private: 
