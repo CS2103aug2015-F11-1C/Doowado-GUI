@@ -27,9 +27,6 @@ namespace DoowadoGUI {
 		GUI(void)
 		{
 			InitializeComponent();
-			Controller = new DisplayController();
-			getListofEvents();
-			getListofTasks();
 		}
 		 
 	protected:
@@ -112,7 +109,10 @@ namespace DoowadoGUI {
 			this->inputBox->TabIndex = 0;
 			this->inputBox->Text = L"Enter Command Here";
 			this->inputBox->TextChanged += gcnew System::EventHandler(this, &GUI::inputBox_TextChanged);
+			this->inputBox->DoubleClick += gcnew System::EventHandler(this, &GUI::inputBox_DoubleClick);
+			this->inputBox->Enter += gcnew System::EventHandler(this, &GUI::inputBox_Enter);
 			this->inputBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::inputBox_KeyDown);
+			this->inputBox->Leave += gcnew System::EventHandler(this, &GUI::inputBox_Leave);
 			// 
 			// label1
 			// 
@@ -139,12 +139,11 @@ namespace DoowadoGUI {
 			this->FeedbackDisplay->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
 			this->FeedbackDisplay->Size = System::Drawing::Size(1096, 104);
 			this->FeedbackDisplay->TabIndex = 5;
-			this->FeedbackDisplay->Text = L"Feedback and History Displayed here";
+			this->FeedbackDisplay->Text = L"";
 			// 
 			// EventListDisplay
 			// 
 			this->EventListDisplay->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->EventListDisplay->CheckBoxes = true;
 			this->EventListDisplay->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(6) {
 				this->EventID, this->EventName,
 					this->StartDate, this->StartTime, this->EndDate, this->EndTime
@@ -289,6 +288,12 @@ namespace DoowadoGUI {
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
+			//initializing program
+			Controller = new DisplayController;
+			Controller->initialiseProgram();
+			getListofEvents();
+			getListofTasks();
+
 		}
 #pragma endregion
 
@@ -307,35 +312,39 @@ namespace DoowadoGUI {
 				TaskListDisplay->Items->Clear();
 				getListofTasks();
 
-				clearCommandBox();
-			}
+				getFeedbackList();
 
+				inputBox->Clear();
+			}
+			
 			// Minimize via Ctrl + W
-			if (e->KeyCode == (Keys::ControlKey | Keys::W)) {
+			if (e->KeyData == (Keys::Control | Keys::W)) {
 				WindowState = FormWindowState::Minimized;
 			}
-
+			
 			// Exit via Ctrl + Q
-			if (e->KeyCode == (Keys::ControlKey | Keys::Q)) {
+			if (e->KeyData == (Keys::Control | Keys::Q)) {
 				MessageBox::Show("Good bye!");
 				Application::Exit();
 			}
 
 			// Undo via Ctrl + Z
-			if (e->KeyCode == (Keys::ControlKey | Keys::Z)) {
+			if (e->KeyData == (Keys::Control | Keys::Z)) {
 				Controller->processInput("undo");
 			}
 
 			// Redo via Ctrl + R
-			if (e->KeyCode == (Keys::ControlKey | Keys::R)) {
+			if (e->KeyData == (Keys::Control | Keys::R)) {
 				Controller->processInput("redo");
 			}
+			
+			e->Handled = true;
 		}
 
 	private:
 		
 		System::Void getListofEvents() {
-			for (int i = 1; i <= Controller->getEventListSize(); i++) {
+			for (int i = 0; i < Controller->getEventListSize(); i++) {
 				NewListViewItem = Controller->retrieveEventFromList(i);
 
 				EventListDisplay->Items->Add(this->NewListViewItem);
@@ -343,18 +352,17 @@ namespace DoowadoGUI {
 		}
 
 		System::Void getListofTasks() {
-			for (int i = 1; i <= Controller->getTaskListSize(); i++) {
+			for (int i = 0; i < Controller->getTaskListSize(); i++) {
 				NewListViewItem = Controller->retrieveTaskFromList(i);
 
 				TaskListDisplay->Items->Add(this->NewListViewItem);
 			}
 		}
-		
-		System::Void clearCommandBox() {
-			inputBox->Text = "";
-			inputBox->SelectionStart = 100;
-		}
 
+		System::Void getFeedbackList() {
+			FeedbackDisplay->AppendText(Controller->retrieveLastFeedback() + "\r\n");
+		}
+		
 		System::Void checkExit(System::String^ input) {
 			if (input == "exit") {
 				MessageBox::Show("Good bye!");
@@ -379,13 +387,29 @@ namespace DoowadoGUI {
 			else if (inputBox->Text == "undo") {
 				feedbackLabel->Text = "undo";
 			}
-			else if (inputBox->Text == "") {
+			else if (inputBox->Text == ""){
 				feedbackLabel->Text = "add / edit / show / delete / undo / save";
 			}
 		}
 
-	private: System::Void todayDateTime_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
-		String^ chosenDate = gcnew String(this->todayDateTime->Value.ToString("dd/MM/yyyy"));
-	}
+	private: 
+		System::Void todayDateTime_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
+			String^ chosenDate = gcnew String(this->todayDateTime->Value.ToString("dd/MM/yyyy"));
+		}
+
+	private: 
+		System::Void inputBox_DoubleClick(System::Object^  sender, System::EventArgs^  e) {
+			this->inputBox->Clear();
+		}
+
+	private: 
+		System::Void inputBox_Enter(System::Object^  sender, System::EventArgs^  e) {
+			this->inputBox->Clear();
+		}
+	
+	private: 
+		System::Void inputBox_Leave(System::Object^  sender, System::EventArgs^  e) {
+			this->inputBox->Text = "Enter Command Here";
+		}
 };
 }

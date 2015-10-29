@@ -13,9 +13,13 @@ public:
 	DisplayController();
 	~DisplayController();
 
+	void initialiseProgram();
+
 	void processInput(System::String^ inputString);
 	int getEventListSize();
 	int getTaskListSize();
+	int getFeedbackListSize();
 	System::Windows::Forms::ListViewItem^ retrieveEventFromList(int index);
 	System::Windows::Forms::ListViewItem^ retrieveTaskFromList(int index);
+	System::String^ retrieveLastFeedback();
 };

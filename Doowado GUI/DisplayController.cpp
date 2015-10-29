@@ -10,13 +10,15 @@ std::string convertToStdString(System::String^ inputString) {
 
 DisplayController::DisplayController(){
 	_logic = new Logic;
-	_logic->initialiseProgram();
 }
 
 DisplayController::~DisplayController() {
 	delete _logic;
 }
 
+void DisplayController::initialiseProgram() {
+	_logic->initialiseProgram();
+}
 
 void DisplayController::processInput(System::String^ inputString){
 	std::string stdInput = convertToStdString(inputString);
@@ -29,9 +31,11 @@ int DisplayController::getEventListSize() {
 }
 
 int DisplayController::getTaskListSize() {
-	int size = _logic->getDisplay()->getTaskList().size();
+	return _logic->getDisplay()->getTaskList().size();
+}
 
-	return size;
+int DisplayController::getFeedbackListSize() {
+	return _logic->getDisplay()->getCommandFeedback().size();
 }
 
 System::Windows::Forms::ListViewItem^ DisplayController::retrieveEventFromList(int index){
@@ -44,7 +48,7 @@ System::Windows::Forms::ListViewItem^ DisplayController::retrieveEventFromList(i
 	
 	Entry* currentEvent;
 
-	currentEvent = _logic->getDisplay()->retrieveEvent(index);
+	currentEvent = _logic->getDisplay()->retrieveEntry(event, index);
 
 	//process eventID
 	eventID = convertToSystemString("E" + to_string(index+1));
@@ -80,7 +84,7 @@ System::Windows::Forms::ListViewItem^ DisplayController::retrieveTaskFromList(in
 
 	Entry* currentTask;
 
-	currentTask = _logic->getDisplay()->retrieveTask(index);
+	currentTask = _logic->getDisplay()->retrieveEntry(task, index);
 
 	//process taskID
 	taskID = convertToSystemString("T" + to_string(index + 1));
@@ -106,4 +110,17 @@ System::Windows::Forms::ListViewItem^ DisplayController::retrieveTaskFromList(in
 	dueTime = convertToSystemString(dueT);
 
 	return (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(4) { taskID, taskTitle, dueDate, dueTime }, -1));
+}
+
+System::String ^ DisplayController::retrieveLastFeedback(){
+	string lastFeedback;
+
+	for (int i = 0; i < _logic->getDisplay()->getCommandFeedback().size(); i++) {
+		lastFeedback += _logic->getDisplay()->getCommandFeedback().at(i);
+		lastFeedback += " ";
+	}
+
+	System::String^ systemFeedback = convertToSystemString(lastFeedback);
+	
+	return systemFeedback;
 }
