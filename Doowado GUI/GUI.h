@@ -6,7 +6,12 @@
 #include <string>
 #include <sstream>
 #include "msclr\marshal_cppstd.h"
-//#include "MessageManager.h"
+#include "DisplayController.h"
+
+#include <Windows.h>
+#pragma comment(lib, "user32.lib")
+
+using namespace std;
 
 
 namespace DoowadoGUI {
@@ -18,16 +23,18 @@ namespace DoowadoGUI {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
+
 	/// <summary>
 	/// Summary for GUI
 	/// </summary>
 	public ref class GUI : public System::Windows::Forms::Form {
+	private:
+		static DisplayController^ Controller;
 	public:
 		GUI(void)
 		{
 			InitializeComponent();
-			//magicManager = gcnew MessageManager();
-			processInput("show on today");
+			Controller = gcnew DisplayController();
 		}
 		 
 	protected:
@@ -45,6 +52,7 @@ namespace DoowadoGUI {
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::TextBox^  FeedbackDisplay;
 	private: System::Windows::Forms::ListView^  EventListDisplay;
+	private: System::Windows::Forms::ListViewItem^ NewListViewItem;
 	private: System::Windows::Forms::ColumnHeader^  EventID;
 	private: System::Windows::Forms::ColumnHeader^  EventName;
 	private: System::Windows::Forms::ColumnHeader^  StartDate;
@@ -59,8 +67,6 @@ namespace DoowadoGUI {
 	private: System::Windows::Forms::ColumnHeader^  DueDate;
 	private: System::Windows::Forms::ColumnHeader^  DueTime;
 	private: System::Windows::Forms::Label^  feedbackLabel;
-
-
 
 
 	protected:
@@ -213,7 +219,7 @@ namespace DoowadoGUI {
 			this->todayDateTime->Name = L"todayDateTime";
 			this->todayDateTime->Size = System::Drawing::Size(248, 27);
 			this->todayDateTime->TabIndex = 13;
-			this->todayDateTime->Value = System::DateTime(2015, 10, 24, 11, 56, 5, 726);
+			this->todayDateTime->Value = System::DateTime::Today;
 			this->todayDateTime->ValueChanged += gcnew System::EventHandler(this, &GUI::todayDateTime_ValueChanged);
 			// 
 			// TaskListDisplay
@@ -292,10 +298,21 @@ namespace DoowadoGUI {
 #pragma endregion
 
 	private:
-		System::Void inputBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+ 		System::Void inputBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 			if (e->KeyCode == Keys::Enter) {
 				String^ inputText = inputBox->Text;
-				processInput(inputText);
+
+				checkExit(inputText);
+
+				Controller->processInput(inputText);
+
+				EventListDisplay->Items->Clear();
+				getListofEvents();
+
+				TaskListDisplay->Items->Clear();
+				getListofTasks();
+
+				clearCommandBox();
 			}
 
 			// Minimize via Ctrl + W
@@ -311,32 +328,33 @@ namespace DoowadoGUI {
 
 			// Undo via Ctrl + Z
 			if (e->KeyData == (Keys::Control | Keys::Z)) {
-				processInput("undo");
+				//Controller->processInput("undo");
 			}
 
 			// Redo via Ctrl + R
-			if (e->KeyData == (Keys::Control | Keys::R)) {
-				processInput("redo");
+			if (e->KeyData == (Keys::Control| Keys::R)) {
+				//Controller->processInput("redo");
 			}
 		}
 
 	private:
-		System::Void processInput(String^ userInput) {
+		
+		System::Void getListofEvents() {
+			for (int i = 0; i < Controller->getEventListSize(); i++) {
+				NewListViewItem = Controller->retrieveEventFromList(i);
 
-			checkExit(userInput);
-
-			//magicManager->generateOutput(userInput);
-
-			clearCommandBox();
-
-			//EventListDisplay->Text = magicManager->getEventListMessage;
-
-			//TaskListDisplay->Text = magicManager->getTaskListMessage;
-
-
+				EventListDisplay->Items->Add(this->NewListViewItem);
+			}
 		}
 
+		System::Void getListofTasks() {
+			for (int i = 0; i < Controller->getTaskListSize(); i++) {
+				NewListViewItem = Controller->retrieveTaskFromList(i);
 
+				TaskListDisplay->Items->Add(this->NewListViewItem);
+			}
+		}
+		
 		System::Void clearCommandBox() {
 			inputBox->Text = "";
 			inputBox->SelectionStart = 100;
@@ -355,7 +373,7 @@ namespace DoowadoGUI {
 				feedbackLabel->Text = "add <Entry name> on <DD/MM/YYYY or day> from <start time> to <end time>";
 			}
 			else if (inputBox->Text == "edit") {
-				feedbackLabel->Text = "edit <index> <Entry name> start/end <start/end time>";
+				feedbackLabel->Text = "edit <index> <name> start/end <start/end time>";
 			}
 			else if (inputBox->Text == "show") {
 				feedbackLabel->Text = "show <date / day / incomplete / completed>";
@@ -373,10 +391,9 @@ namespace DoowadoGUI {
 				feedbackLabel->Text = "add / edit / show / delete / undo / save";
 			}
 		}
+
 	private: System::Void todayDateTime_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
 		String^ chosenDate = gcnew String(this->todayDateTime->Value.ToString("dd/MM/yyyy"));
-
-		//magicManager->generateOutput("show on " + chosenDate);
 	}
 };
 }

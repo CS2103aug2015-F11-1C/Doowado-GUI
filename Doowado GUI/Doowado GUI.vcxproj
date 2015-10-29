@@ -31,7 +31,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CLRSupport>true</CLRSupport>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files\boost_1_59_0;$(IncludePath)</IncludePath>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -92,13 +92,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Anthony\Documents\Visual Studio 2015\Projects\Doowado\Doowado - Task Manager\Doowado - Task Manager;C:\local\boost_1_59_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Resources\boost_1_59_0\boost_1_59_0;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies />
       <SubSystem>Windows</SubSystem>
-      <EntryPointSymbol>main</EntryPointSymbol>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <AdditionalLibraryDirectories>C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug;E:\Resources\boost_1_59_0\boost_1_59_0\stage\lib;C:\local\boost_1_59_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\Display.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\Entry.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\Command.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\CommandBuilder.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\ParserResult.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\Parser.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\Storage.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\UndoCommand.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\EditCommand.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\AddCommand.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\History.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\SaveCommand.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\SearchCommand.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\Task.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\Logic.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\ShowCommand.obj;C:\Users\Li Jiahao\Desktop\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Debug\DeleteCommand.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -106,7 +108,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\local\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\local\boost_1_59_0;C:\Users\Anthony\Documents\Visual Studio 2015\Projects\Doowado\Doowado - Task Manager\Doowado - Task Manager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -144,9 +146,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DisplayController.cpp" />
     <ClCompile Include="GUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DisplayController.h" />
     <ClInclude Include="GUI.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -157,7 +161,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Doowado-master\Doowado-master\Doowado - Task Manager\Doowado - Task Manager\Doowado - Task Manager.vcxproj">
+    <ProjectReference Include="..\Doowado - Task Manager\Doowado - Task Manager.vcxproj">
+      <Project>{a0d2e2cd-8ff0-4644-81b4-d205681588b9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Doowado Main\Doowado - Task Manager\Doowado - Task Manager\Doowado - Task Manager.vcxproj">
       <Project>{a0d2e2cd-8ff0-4644-81b4-d205681588b9}</Project>
     </ProjectReference>
   </ItemGroup>

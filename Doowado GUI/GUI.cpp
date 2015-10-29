@@ -4,10 +4,12 @@ using namespace System;
 using namespace System::Windows::Forms;
 
 [STAThread]
-void main(array<String^>^args) {
+int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 
 	DoowadoGUI::GUI mainWindow;
 	Application::Run(%mainWindow);
+
+	return 0;
 }
