@@ -143,6 +143,8 @@ namespace DoowadoGUI {
 			this->FeedbackDisplay->TabIndex = 5;
 			this->FeedbackDisplay->Text = L"";
 			this->FeedbackDisplay->TabIndex = 2;
+			this->FeedbackDisplay->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::inputBox_KeyDown);
+
 			// 
 			// EventListDisplay
 			// 
@@ -158,6 +160,8 @@ namespace DoowadoGUI {
 			this->EventListDisplay->UseCompatibleStateImageBehavior = false;
 			this->EventListDisplay->View = System::Windows::Forms::View::Details;
 			this->EventListDisplay->TabStop = false;
+			this->EventListDisplay->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::inputBox_KeyDown);
+
 			// 
 			// EventID
 			// 
@@ -235,6 +239,7 @@ namespace DoowadoGUI {
 			this->TaskListDisplay->UseCompatibleStateImageBehavior = false;
 			this->TaskListDisplay->View = System::Windows::Forms::View::Details;
 			this->TaskListDisplay->TabStop = false;
+			this->TaskListDisplay->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::inputBox_KeyDown);
 			// 
 			// TaskID
 			// 
@@ -308,48 +313,55 @@ namespace DoowadoGUI {
 	private:
 		System::Void inputBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 			if (e->KeyCode == Keys::Enter) {
-				String^ inputText = inputBox->Text;
+				if (this->ActiveControl == inputBox) {
+					String^ inputText = inputBox->Text;
 
-				checkExit(inputText);
+					checkExit(inputText);
 
-				Controller->processInput(inputText);
+					Controller->processInput(inputText);
 
-				EventListDisplay->Items->Clear();
-				getListofEvents();
+					EventListDisplay->Items->Clear();
+					getListofEvents();
 
-				TaskListDisplay->Items->Clear();
-				getListofTasks();
+					TaskListDisplay->Items->Clear();
+					getListofTasks();
 
-				getFeedbackList();
+					getFeedbackList();
 
-				inputBox->Clear();
+					inputBox->Clear();
 
-				this->ActiveControl = FeedbackDisplay;
+					this->ActiveControl = FeedbackDisplay;
 
-				e->Handled = true;
+					e->Handled = true;
+				}
+				else {
+					this->ActiveControl = inputBox;
+				}
 			}
 			
 			// Minimize via Ctrl + W
-			if (e->KeyData == (Keys::Control | Keys::W)) {
+			else if (e->KeyData == (Keys::Control | Keys::W)) {
 				WindowState = FormWindowState::Minimized;
 			}
 			
 			// Exit via Ctrl + Q
-			if (e->KeyData == (Keys::Control | Keys::Q)) {
+			else if (e->KeyData == (Keys::Control | Keys::Q)) {
 				MessageBox::Show("Good bye!");
 				Application::Exit();
 			}
 
 			// Undo via Ctrl + Z
-			if (e->KeyData == (Keys::Control | Keys::Z)) {
+			else if (e->KeyData == (Keys::Control | Keys::Z)) {
 				Controller->processInput("undo");
 			}
 
 			// Redo via Ctrl + R
-			if (e->KeyData == (Keys::Control | Keys::R)) {
+			else if (e->KeyData == (Keys::Control | Keys::R)) {
 				Controller->processInput("redo");
 			}
-			
+			else {
+				this->ActiveControl = inputBox;
+			}
 			e->Handled = true;
 		}
 
