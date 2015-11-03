@@ -27,6 +27,12 @@ namespace DoowadoGUI {
 		GUI(void)
 		{
 			InitializeComponent();
+
+			//initializing program
+			Controller = new DisplayController;
+			Controller->initialiseProgram();
+			getListofEvents();
+			getListofTasks();
 		}
 		 
 	protected:
@@ -143,7 +149,8 @@ namespace DoowadoGUI {
 			this->FeedbackDisplay->TabIndex = 5;
 			this->FeedbackDisplay->Text = L"";
 			this->FeedbackDisplay->TabIndex = 2;
-			this->FeedbackDisplay->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::inputBox_KeyDown);
+			this->FeedbackDisplay->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::generalForm_KeyDown);
+			this->FeedbackDisplay->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &GUI::generalForm_KeyPress);
 
 			// 
 			// EventListDisplay
@@ -160,7 +167,8 @@ namespace DoowadoGUI {
 			this->EventListDisplay->UseCompatibleStateImageBehavior = false;
 			this->EventListDisplay->View = System::Windows::Forms::View::Details;
 			this->EventListDisplay->TabStop = false;
-			this->EventListDisplay->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::inputBox_KeyDown);
+			this->EventListDisplay->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::generalForm_KeyDown);
+			this->EventListDisplay->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &GUI::generalForm_KeyPress);
 
 			// 
 			// EventID
@@ -239,7 +247,9 @@ namespace DoowadoGUI {
 			this->TaskListDisplay->UseCompatibleStateImageBehavior = false;
 			this->TaskListDisplay->View = System::Windows::Forms::View::Details;
 			this->TaskListDisplay->TabStop = false;
-			this->TaskListDisplay->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::inputBox_KeyDown);
+			this->TaskListDisplay->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::generalForm_KeyDown);
+			this->TaskListDisplay->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &GUI::generalForm_KeyPress);
+
 			// 
 			// TaskID
 			// 
@@ -297,15 +307,10 @@ namespace DoowadoGUI {
 			this->MinimizeBox = false;
 			this->Name = L"GUI";
 			this->Text = L"Doowado";
-			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::inputBox_KeyDown);
+			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::generalForm_KeyDown);
+			this->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &GUI::generalForm_KeyPress);
 			this->ResumeLayout(false);
 			this->PerformLayout();
-
-			//initializing program
-			Controller = new DisplayController;
-			Controller->initialiseProgram();
-			getListofEvents();
-			getListofTasks();
 
 		}
 #pragma endregion
@@ -313,7 +318,6 @@ namespace DoowadoGUI {
 	private:
 		System::Void inputBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 			if (e->KeyCode == Keys::Enter) {
-				if (this->ActiveControl == inputBox) {
 					String^ inputText = inputBox->Text;
 
 					checkExit(inputText);
@@ -333,10 +337,6 @@ namespace DoowadoGUI {
 					this->ActiveControl = FeedbackDisplay;
 
 					e->Handled = true;
-				}
-				else {
-					this->ActiveControl = inputBox;
-				}
 			}
 			
 			// Minimize via Ctrl + W
@@ -359,14 +359,50 @@ namespace DoowadoGUI {
 			else if (e->KeyData == (Keys::Control | Keys::R)) {
 				Controller->processInput("redo");
 			}
-			else {
-				this->ActiveControl = inputBox;
-			}
+
 			e->Handled = true;
 		}
 
 	private:
 		
+		System::Void generalForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+			// Minimize via Ctrl + W
+			if (e->KeyData == (Keys::Control | Keys::W)) {
+				WindowState = FormWindowState::Minimized;
+			}
+
+			// Exit via Ctrl + Q
+			else if (e->KeyData == (Keys::Control | Keys::Q)) {
+				MessageBox::Show("Good bye!");
+				Application::Exit();
+			}
+
+			// Undo via Ctrl + Z
+			else if (e->KeyData == (Keys::Control | Keys::Z)) {
+				Controller->processInput("undo");
+			}
+
+			// Redo via Ctrl + R
+			else if (e->KeyData == (Keys::Control | Keys::R)) {
+				Controller->processInput("redo");
+			}
+			else {
+				inputBox->Text = gcnew System::String(to_string(e->KeyValue).c_str());
+				this->ActiveControl = inputBox;
+			}
+		}
+
+		System::Void generalForm_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
+			if (e->KeyChar == (char)13 || e->KeyChar == (char)8) {
+				this->ActiveControl = inputBox;
+			}
+			else {
+				inputBox->Text = e->KeyChar.ToString();
+				this->ActiveControl = inputBox;
+				inputBox->SelectionStart = inputBox->Text->Length;
+			}
+		}
+
 		System::Void getListofEvents() {
 			for (int i = 0; i < Controller->getEventListSize(); i++) {
 				NewListViewItem = Controller->retrieveEventFromList(i);
@@ -384,7 +420,7 @@ namespace DoowadoGUI {
 		}
 
 		System::Void getFeedbackList() {
-			FeedbackDisplay->AppendText(Controller->retrieveLastFeedback() + "\r\n");
+			FeedbackDisplay->AppendText("\r\n" + Controller->retrieveLastFeedback() + "\r\n");
 		}
 		
 		System::Void checkExit(System::String^ input) {
