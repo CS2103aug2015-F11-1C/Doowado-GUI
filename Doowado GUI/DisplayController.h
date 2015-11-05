@@ -19,7 +19,13 @@ public:
 	int getEventListSize();
 	int getTaskListSize();
 	int getFeedbackListSize();
-	System::Windows::Forms::ListViewItem^ retrieveEventFromList(int index);
-	System::Windows::Forms::ListViewItem^ retrieveTaskFromList(int index);
+
 	System::String^ retrieveLastFeedback();
+
+	System::Windows::Forms::ListViewItem^ retrieveEventNameFromList(int index);
+	System::Windows::Forms::ListViewItem^ retrieveEventStartFromList(int index);
+	System::Windows::Forms::ListViewItem^ retrieveEventEndFromList(int index);
+
+	System::Windows::Forms::ListViewItem^ retrieveTaskNameFromList(int index);
+	System::Windows::Forms::ListViewItem^ retrieveTaskDueFromList(int index);
 };

@@ -27,7 +27,7 @@ namespace DoowadoGUI {
 		GUI(void)
 		{
 			InitializeComponent();
-			this->ActiveControl = inputBox;
+
 			//initializing program
 			Controller = new DisplayController;
 			Controller->initialiseProgram();
@@ -48,20 +48,20 @@ namespace DoowadoGUI {
 		}
 
 	private: System::Windows::Forms::ListView^  EventListDisplay;
-	private: System::Windows::Forms::ListViewItem^ NewListViewItem;
 	private: System::Windows::Forms::ColumnHeader^  EventID;
-	private: System::Windows::Forms::ColumnHeader^  EventName;
-	private: System::Windows::Forms::ColumnHeader^  StartDate;
-	private: System::Windows::Forms::ColumnHeader^  StartTime;
-	private: System::Windows::Forms::ColumnHeader^  EndDate;
-	private: System::Windows::Forms::ColumnHeader^  EndTime;
+	private: System::Windows::Forms::ColumnHeader^  EventDesc;
+
+
+
+
+
 
 
 	private: System::Windows::Forms::ListView^  TaskListDisplay;
 	private: System::Windows::Forms::ColumnHeader^  TaskID;
 	private: System::Windows::Forms::ColumnHeader^  TaskDescription;
-	private: System::Windows::Forms::ColumnHeader^  DueDate;
-	private: System::Windows::Forms::ColumnHeader^  DueTime;
+
+
 	private: MetroFramework::Controls::MetroLabel^  EventListLabel;
 	private: MetroFramework::Controls::MetroLabel^  TaskListLabel;
 
@@ -87,16 +87,10 @@ namespace DoowadoGUI {
 		{
 			this->EventListDisplay = (gcnew System::Windows::Forms::ListView());
 			this->EventID = (gcnew System::Windows::Forms::ColumnHeader());
-			this->EventName = (gcnew System::Windows::Forms::ColumnHeader());
-			this->StartDate = (gcnew System::Windows::Forms::ColumnHeader());
-			this->StartTime = (gcnew System::Windows::Forms::ColumnHeader());
-			this->EndDate = (gcnew System::Windows::Forms::ColumnHeader());
-			this->EndTime = (gcnew System::Windows::Forms::ColumnHeader());
+			this->EventDesc = (gcnew System::Windows::Forms::ColumnHeader());
 			this->TaskListDisplay = (gcnew System::Windows::Forms::ListView());
 			this->TaskID = (gcnew System::Windows::Forms::ColumnHeader());
 			this->TaskDescription = (gcnew System::Windows::Forms::ColumnHeader());
-			this->DueDate = (gcnew System::Windows::Forms::ColumnHeader());
-			this->DueTime = (gcnew System::Windows::Forms::ColumnHeader());
 			this->EventListLabel = (gcnew MetroFramework::Controls::MetroLabel());
 			this->TaskListLabel = (gcnew MetroFramework::Controls::MetroLabel());
 			this->inputBox = (gcnew MetroFramework::Controls::MetroTextBox());
@@ -108,13 +102,10 @@ namespace DoowadoGUI {
 			// 
 			this->EventListDisplay->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->EventListDisplay->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->EventListDisplay->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(6) {
-				this->EventID, this->EventName,
-					this->StartDate, this->StartTime, this->EndDate, this->EndTime
-			});
-			this->EventListDisplay->Location = System::Drawing::Point(12, 80);
+			this->EventListDisplay->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(2) { this->EventID, this->EventDesc });
+			this->EventListDisplay->Location = System::Drawing::Point(8, 80);
 			this->EventListDisplay->Name = L"EventListDisplay";
-			this->EventListDisplay->Size = System::Drawing::Size(560, 287);
+			this->EventListDisplay->Size = System::Drawing::Size(304, 287);
 			this->EventListDisplay->TabIndex = 3;
 			this->EventListDisplay->TabStop = false;
 			this->EventListDisplay->UseCompatibleStateImageBehavior = false;
@@ -125,43 +116,20 @@ namespace DoowadoGUI {
 			// EventID
 			// 
 			this->EventID->Text = L"ID.";
-			this->EventID->Width = 30;
+			this->EventID->Width = 50;
 			// 
-			// EventName
+			// EventDesc
 			// 
-			this->EventName->Text = L"Event Description";
-			this->EventName->Width = 200;
-			// 
-			// StartDate
-			// 
-			this->StartDate->Text = L"Start Date";
-			this->StartDate->Width = 90;
-			// 
-			// StartTime
-			// 
-			this->StartTime->Text = L"Start Time";
-			this->StartTime->Width = 75;
-			// 
-			// EndDate
-			// 
-			this->EndDate->Text = L"End Date";
-			this->EndDate->Width = 90;
-			// 
-			// EndTime
-			// 
-			this->EndTime->Text = L"End Time";
-			this->EndTime->Width = 75;
+			this->EventDesc->Text = L"Event Description";
+			this->EventDesc->Width = 250;
 			// 
 			// TaskListDisplay
 			// 
 			this->TaskListDisplay->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->TaskListDisplay->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(4) {
-				this->TaskID, this->TaskDescription,
-					this->DueDate, this->DueTime
-			});
-			this->TaskListDisplay->Location = System::Drawing::Point(578, 80);
+			this->TaskListDisplay->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(2) { this->TaskID, this->TaskDescription });
+			this->TaskListDisplay->Location = System::Drawing::Point(318, 80);
 			this->TaskListDisplay->Name = L"TaskListDisplay";
-			this->TaskListDisplay->Size = System::Drawing::Size(405, 287);
+			this->TaskListDisplay->Size = System::Drawing::Size(314, 287);
 			this->TaskListDisplay->TabIndex = 14;
 			this->TaskListDisplay->TabStop = false;
 			this->TaskListDisplay->UseCompatibleStateImageBehavior = false;
@@ -172,34 +140,24 @@ namespace DoowadoGUI {
 			// TaskID
 			// 
 			this->TaskID->Text = L"ID.";
-			this->TaskID->Width = 30;
+			this->TaskID->Width = 50;
 			// 
 			// TaskDescription
 			// 
 			this->TaskDescription->Text = L"Task Description";
-			this->TaskDescription->Width = 200;
-			// 
-			// DueDate
-			// 
-			this->DueDate->Text = L"Due Date";
-			this->DueDate->Width = 85;
-			// 
-			// DueTime
-			// 
-			this->DueTime->Text = L"Due Time";
-			this->DueTime->Width = 75;
+			this->TaskDescription->Width = 250;
 			// 
 			// EventListLabel
 			// 
 			this->EventListLabel->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->EventListLabel->AutoSize = true;
 			this->EventListLabel->FontWeight = MetroFramework::MetroLabelWeight::Bold;
-			this->EventListLabel->Location = System::Drawing::Point(12, 58);
+			this->EventListLabel->Location = System::Drawing::Point(8, 58);
 			this->EventListLabel->Name = L"EventListLabel";
-			this->EventListLabel->Size = System::Drawing::Size(281, 19);
+			this->EventListLabel->Size = System::Drawing::Size(159, 19);
 			this->EventListLabel->Style = MetroFramework::MetroColorStyle::Blue;
 			this->EventListLabel->TabIndex = 16;
-			this->EventListLabel->Text = L"These are the events you have for today:";
+			this->EventListLabel->Text = L"Your Events for Today:";
 			this->EventListLabel->UseCustomBackColor = true;
 			this->EventListLabel->UseCustomForeColor = true;
 			this->EventListLabel->UseStyleColors = true;
@@ -209,11 +167,11 @@ namespace DoowadoGUI {
 			this->TaskListLabel->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->TaskListLabel->AutoSize = true;
 			this->TaskListLabel->FontWeight = MetroFramework::MetroLabelWeight::Bold;
-			this->TaskListLabel->Location = System::Drawing::Point(578, 58);
+			this->TaskListLabel->Location = System::Drawing::Point(318, 58);
 			this->TaskListLabel->Name = L"TaskListLabel";
-			this->TaskListLabel->Size = System::Drawing::Size(208, 19);
+			this->TaskListLabel->Size = System::Drawing::Size(142, 19);
 			this->TaskListLabel->TabIndex = 17;
-			this->TaskListLabel->Text = L"These are your pending tasks:";
+			this->TaskListLabel->Text = L"Your Pending Tasks:";
 			this->TaskListLabel->UseCustomBackColor = true;
 			this->TaskListLabel->UseCustomForeColor = true;
 			this->TaskListLabel->UseStyleColors = true;
@@ -225,7 +183,7 @@ namespace DoowadoGUI {
 			// 
 			// 
 			this->inputBox->CustomButton->Image = nullptr;
-			this->inputBox->CustomButton->Location = System::Drawing::Point(949, 1);
+			this->inputBox->CustomButton->Location = System::Drawing::Point(602, 1);
 			this->inputBox->CustomButton->Name = L"";
 			this->inputBox->CustomButton->Size = System::Drawing::Size(21, 21);
 			this->inputBox->CustomButton->Style = MetroFramework::MetroColorStyle::Blue;
@@ -234,7 +192,7 @@ namespace DoowadoGUI {
 			this->inputBox->CustomButton->UseSelectable = true;
 			this->inputBox->CustomButton->Visible = false;
 			this->inputBox->Lines = gcnew cli::array< System::String^  >(1) { L"Enter Command Here" };
-			this->inputBox->Location = System::Drawing::Point(12, 418);
+			this->inputBox->Location = System::Drawing::Point(8, 418);
 			this->inputBox->MaxLength = 32767;
 			this->inputBox->Name = L"inputBox";
 			this->inputBox->PasswordChar = '\0';
@@ -242,7 +200,7 @@ namespace DoowadoGUI {
 			this->inputBox->SelectedText = L"";
 			this->inputBox->SelectionLength = 0;
 			this->inputBox->SelectionStart = 0;
-			this->inputBox->Size = System::Drawing::Size(971, 23);
+			this->inputBox->Size = System::Drawing::Size(624, 23);
 			this->inputBox->TabIndex = 1;
 			this->inputBox->Text = L"Enter Command Here";
 			this->inputBox->UseSelectable = true;
@@ -262,7 +220,7 @@ namespace DoowadoGUI {
 			this->feedbackLabel->FontSize = MetroFramework::MetroLabelSize::Small;
 			this->feedbackLabel->FontWeight = MetroFramework::MetroLabelWeight::Regular;
 			this->feedbackLabel->ForeColor = System::Drawing::SystemColors::ControlDarkDark;
-			this->feedbackLabel->Location = System::Drawing::Point(12, 400);
+			this->feedbackLabel->Location = System::Drawing::Point(8, 400);
 			this->feedbackLabel->Name = L"feedbackLabel";
 			this->feedbackLabel->Size = System::Drawing::Size(258, 15);
 			this->feedbackLabel->Style = MetroFramework::MetroColorStyle::Orange;
@@ -281,7 +239,7 @@ namespace DoowadoGUI {
 			// 
 			// 
 			this->FeedbackDisplay->CustomButton->Image = nullptr;
-			this->FeedbackDisplay->CustomButton->Location = System::Drawing::Point(949, 2);
+			this->FeedbackDisplay->CustomButton->Location = System::Drawing::Point(602, 2);
 			this->FeedbackDisplay->CustomButton->Name = L"";
 			this->FeedbackDisplay->CustomButton->Size = System::Drawing::Size(19, 19);
 			this->FeedbackDisplay->CustomButton->Style = MetroFramework::MetroColorStyle::Blue;
@@ -290,7 +248,7 @@ namespace DoowadoGUI {
 			this->FeedbackDisplay->CustomButton->UseSelectable = true;
 			this->FeedbackDisplay->CustomButton->Visible = false;
 			this->FeedbackDisplay->Lines = gcnew cli::array< System::String^  >(0);
-			this->FeedbackDisplay->Location = System::Drawing::Point(12, 373);
+			this->FeedbackDisplay->Location = System::Drawing::Point(8, 373);
 			this->FeedbackDisplay->MaxLength = 32767;
 			this->FeedbackDisplay->Multiline = true;
 			this->FeedbackDisplay->Name = L"FeedbackDisplay";
@@ -300,7 +258,7 @@ namespace DoowadoGUI {
 			this->FeedbackDisplay->SelectedText = L"";
 			this->FeedbackDisplay->SelectionLength = 0;
 			this->FeedbackDisplay->SelectionStart = 0;
-			this->FeedbackDisplay->Size = System::Drawing::Size(971, 24);
+			this->FeedbackDisplay->Size = System::Drawing::Size(624, 24);
 			this->FeedbackDisplay->Style = MetroFramework::MetroColorStyle::Black;
 			this->FeedbackDisplay->TabIndex = 2;
 			this->FeedbackDisplay->UseSelectable = true;
@@ -318,7 +276,7 @@ namespace DoowadoGUI {
 			this->AutoValidate = System::Windows::Forms::AutoValidate::EnablePreventFocusChange;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->CausesValidation = false;
-			this->ClientSize = System::Drawing::Size(995, 451);
+			this->ClientSize = System::Drawing::Size(643, 451);
 			this->Controls->Add(this->FeedbackDisplay);
 			this->Controls->Add(this->feedbackLabel);
 			this->Controls->Add(this->inputBox);
@@ -438,22 +396,35 @@ namespace DoowadoGUI {
 
 		System::Void getListofEvents() {
 			for (int i = 0; i < Controller->getEventListSize(); i++) {
-				NewListViewItem = Controller->retrieveEventFromList(i);
+				System::Windows::Forms::ListViewItem^ NewListViewItem;
 
-				EventListDisplay->Items->Add(this->NewListViewItem);
+				NewListViewItem = Controller->retrieveEventNameFromList(i);
+				EventListDisplay->Items->Add(NewListViewItem);
+
+				NewListViewItem = Controller->retrieveEventStartFromList(i);
+				EventListDisplay->Items->Add(NewListViewItem);
+
+				NewListViewItem = Controller->retrieveEventEndFromList(i);
+				EventListDisplay->Items->Add(NewListViewItem);
 			}
 		}
 
 		System::Void getListofTasks() {
 			for (int i = 0; i < Controller->getTaskListSize(); i++) {
-				NewListViewItem = Controller->retrieveTaskFromList(i);
+				System::Windows::Forms::ListViewItem^ NewListViewItem;
 
-				TaskListDisplay->Items->Add(this->NewListViewItem);
+				NewListViewItem = Controller->retrieveTaskNameFromList(i);
+				TaskListDisplay->Items->Add(NewListViewItem);
+
+				NewListViewItem = Controller->retrieveTaskDueFromList(i);
+				if (NewListViewItem->SubItems->Count > 1) {
+					TaskListDisplay->Items->Add(NewListViewItem);
+				}
 			}
 		}
 
 		System::Void getFeedbackList() {
-			FeedbackDisplay->AppendText("\r\n" + Controller->retrieveLastFeedback() + "\r\n");
+			FeedbackDisplay->AppendText("\r\n" + Controller->retrieveLastFeedback());
 		}
 		
 		System::Void checkExit(System::String^ input) {

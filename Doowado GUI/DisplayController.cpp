@@ -38,80 +38,6 @@ int DisplayController::getFeedbackListSize() {
 	return _logic->getDisplay()->getCommandFeedback().size();
 }
 
-System::Windows::Forms::ListViewItem^ DisplayController::retrieveEventFromList(int index){
-	System::String^ eventID;
-	System::String^ eventTitle;
-	System::String^ startDate;
-	System::String^ startTime;
-	System::String^ endDate;
-	System::String^ endTime;
-	
-	Entry* currentEvent;
-
-	currentEvent = _logic->getDisplay()->retrieveEntry(event, index);
-
-	//process eventID
-	eventID = convertToSystemString("E" + to_string(index+1));
-
-	//process eventTitle
-	std::string title = currentEvent->getTitle();
-	eventTitle = convertToSystemString(title);
-
-	//process startDate
-	std::string startD = to_simple_string(currentEvent->getStartTime().date());
-	startDate = convertToSystemString(startD);
-
-	//process startTime
-	std::string startT = to_simple_string(currentEvent->getStartTime().time_of_day());
-	startTime = convertToSystemString(startT);
-
-	//process endDate
-	std::string endD = to_simple_string(currentEvent->getEndTime().date());
-	endDate = convertToSystemString(endD);
-
-	//process endTime
-	std::string endT = to_simple_string(currentEvent->getEndTime().time_of_day());
-	endTime = convertToSystemString(endT);
-
-	return (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(6) { eventID, eventTitle, startDate, startTime, endDate, endTime }, -1));
-}
-
-System::Windows::Forms::ListViewItem^ DisplayController::retrieveTaskFromList(int index){
-	System::String^ taskID;
-	System::String^ taskTitle;
-	System::String^ dueDate;
-	System::String^ dueTime;
-
-	Entry* currentTask;
-
-	currentTask = _logic->getDisplay()->retrieveEntry(task, index);
-
-	//process taskID
-	taskID = convertToSystemString("T" + to_string(index + 1));
-
-	//process taskTitle
-	std::string title = currentTask->getTitle();
-	taskTitle = convertToSystemString(title);
-
-	//process dueDate & dueTime
-	std::string dueD;
-	std::string dueT;
-
-	if (currentTask->getEndTime().is_not_a_date_time()) {
-		dueD = "";
-		dueT = "";
-	}
-	else {
-		dueD = to_simple_string(currentTask->getEndTime().date());
-		dueT = to_simple_string(currentTask->getEndTime().time_of_day());
-	}
-	
-	dueDate = convertToSystemString(dueD);
-	dueTime = convertToSystemString(dueT);
-
-	return (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(4) { taskID, taskTitle, dueDate, dueTime }, -1));
-}
-
 System::String ^ DisplayController::retrieveLastFeedback(){
 	string lastFeedback;
 
@@ -124,3 +50,100 @@ System::String ^ DisplayController::retrieveLastFeedback(){
 	
 	return systemFeedback;
 }
+
+System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventNameFromList(int index){
+	System::String^ eventID;
+	System::String^ eventDetails;
+
+	Entry* currentEvent;
+
+	currentEvent = _logic->getDisplay()->retrieveEntry(event, index);
+
+	//process eventID
+	eventID = convertToSystemString("E" + to_string(index + 1));
+
+	//process eventTitle
+	std::string title = currentEvent->getTitle();
+	eventDetails = convertToSystemString(title);
+
+	return (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails}, -1));
+}
+
+System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventStartFromList(int index){
+	System::String^ eventID;
+	System::String^ eventDetails;
+
+	Entry* currentEvent;
+
+	currentEvent = _logic->getDisplay()->retrieveEntry(event, index);
+
+	//process eventID
+	eventID = convertToSystemString("");
+
+	//process start time
+	std::string startTime = to_simple_string(currentEvent->getStartTime());
+	eventDetails = convertToSystemString("Start at: " + startTime);
+
+	return (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
+}
+
+System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventEndFromList(int index){
+	System::String^ eventID;
+	System::String^ eventDetails;
+
+	Entry* currentEvent;
+
+	currentEvent = _logic->getDisplay()->retrieveEntry(event, index);
+
+	//process eventID
+	eventID = convertToSystemString("");
+
+	//process end Time
+	std::string endTime = to_simple_string(currentEvent->getEndTime());
+	eventDetails = convertToSystemString("End at: "+ endTime);
+
+	return (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
+}
+
+System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskNameFromList(int index){
+	System::String^ taskID;
+	System::String^ taskDetails;
+
+	Entry* currentTask;
+
+	currentTask = _logic->getDisplay()->retrieveEntry(task, index);
+
+	//process taskID
+	taskID = convertToSystemString("T" + to_string(index + 1));
+
+	//process taskTitle
+	std::string title = currentTask->getTitle();
+	taskDetails = convertToSystemString(title);
+
+	return (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { taskID, taskDetails }, -1));
+}
+
+System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskDueFromList(int index){
+	System::String^ taskID;
+	System::String^ taskDetails;
+
+	Entry* currentTask;
+
+	currentTask = _logic->getDisplay()->retrieveEntry(task, index);
+
+	//process eventID
+	taskID = convertToSystemString("");
+
+	//process end Time
+	if (currentTask->getEndTime().is_not_a_date_time()) {
+		return (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(1) { taskID }, -1));
+	}
+	else {
+		std::string endTime = to_simple_string(currentTask->getEndTime());
+		taskDetails = convertToSystemString("Due by: " + endTime);
+
+		return (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { taskID, taskDetails }, -1));
+	}
+
+}
+
