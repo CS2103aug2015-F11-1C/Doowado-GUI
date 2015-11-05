@@ -87,6 +87,7 @@ namespace DoowadoGUI {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(GUI::typeid));
 			this->EventListDisplay = (gcnew System::Windows::Forms::ListView());
 			this->EventID = (gcnew System::Windows::Forms::ColumnHeader());
 			this->EventDesc = (gcnew System::Windows::Forms::ColumnHeader());
@@ -106,8 +107,11 @@ namespace DoowadoGUI {
 			// EventListDisplay
 			// 
 			this->EventListDisplay->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->EventListDisplay->BackColor = System::Drawing::Color::White;
 			this->EventListDisplay->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->EventListDisplay->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(2) { this->EventID, this->EventDesc });
+			this->EventListDisplay->ForeColor = System::Drawing::Color::Black;
+			this->EventListDisplay->HeaderStyle = System::Windows::Forms::ColumnHeaderStyle::Nonclickable;
 			this->EventListDisplay->Location = System::Drawing::Point(8, 80);
 			this->EventListDisplay->Name = L"EventListDisplay";
 			this->EventListDisplay->Size = System::Drawing::Size(304, 287);
@@ -121,6 +125,7 @@ namespace DoowadoGUI {
 			// EventID
 			// 
 			this->EventID->Text = L"ID.";
+			this->EventID->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			this->EventID->Width = 50;
 			// 
 			// EventDesc
@@ -131,10 +136,14 @@ namespace DoowadoGUI {
 			// TaskListDisplay
 			// 
 			this->TaskListDisplay->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->TaskListDisplay->BackColor = System::Drawing::Color::White;
+			this->TaskListDisplay->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->TaskListDisplay->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(2) { this->TaskID, this->TaskDescription });
+			this->TaskListDisplay->ForeColor = System::Drawing::Color::Black;
+			this->TaskListDisplay->HeaderStyle = System::Windows::Forms::ColumnHeaderStyle::Nonclickable;
 			this->TaskListDisplay->Location = System::Drawing::Point(318, 80);
 			this->TaskListDisplay->Name = L"TaskListDisplay";
-			this->TaskListDisplay->Size = System::Drawing::Size(304, 287);
+			this->TaskListDisplay->Size = System::Drawing::Size(305, 287);
 			this->TaskListDisplay->TabIndex = 0;
 			this->TaskListDisplay->TabStop = false;
 			this->TaskListDisplay->UseCompatibleStateImageBehavior = false;
@@ -145,6 +154,7 @@ namespace DoowadoGUI {
 			// TaskID
 			// 
 			this->TaskID->Text = L"ID.";
+			this->TaskID->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			this->TaskID->Width = 50;
 			// 
 			// TaskDescription
@@ -157,12 +167,14 @@ namespace DoowadoGUI {
 			this->EventListLabel->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->EventListLabel->AutoSize = true;
 			this->EventListLabel->FontWeight = MetroFramework::MetroLabelWeight::Bold;
+			this->EventListLabel->ForeColor = System::Drawing::Color::Gainsboro;
 			this->EventListLabel->Location = System::Drawing::Point(8, 58);
 			this->EventListLabel->Name = L"EventListLabel";
 			this->EventListLabel->Size = System::Drawing::Size(159, 19);
 			this->EventListLabel->Style = MetroFramework::MetroColorStyle::Blue;
 			this->EventListLabel->TabIndex = 0;
 			this->EventListLabel->Text = L"Your Events for Today:";
+			this->EventListLabel->Theme = MetroFramework::MetroThemeStyle::Dark;
 			this->EventListLabel->UseCustomBackColor = true;
 			this->EventListLabel->UseCustomForeColor = true;
 			this->EventListLabel->UseStyleColors = true;
@@ -172,11 +184,14 @@ namespace DoowadoGUI {
 			this->TaskListLabel->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->TaskListLabel->AutoSize = true;
 			this->TaskListLabel->FontWeight = MetroFramework::MetroLabelWeight::Bold;
+			this->TaskListLabel->ForeColor = System::Drawing::Color::Gainsboro;
 			this->TaskListLabel->Location = System::Drawing::Point(318, 58);
 			this->TaskListLabel->Name = L"TaskListLabel";
 			this->TaskListLabel->Size = System::Drawing::Size(142, 19);
+			this->TaskListLabel->Style = MetroFramework::MetroColorStyle::White;
 			this->TaskListLabel->TabIndex = 0;
 			this->TaskListLabel->Text = L"Your Pending Tasks:";
+			this->TaskListLabel->Theme = MetroFramework::MetroThemeStyle::Dark;
 			this->TaskListLabel->UseCustomBackColor = true;
 			this->TaskListLabel->UseCustomForeColor = true;
 			this->TaskListLabel->UseStyleColors = true;
@@ -206,9 +221,12 @@ namespace DoowadoGUI {
 			this->inputBox->SelectionLength = 0;
 			this->inputBox->SelectionStart = 0;
 			this->inputBox->Size = System::Drawing::Size(614, 23);
+			this->inputBox->Style = MetroFramework::MetroColorStyle::Orange;
 			this->inputBox->TabIndex = 1;
 			this->inputBox->Text = L"Enter Command Here";
+			this->inputBox->Theme = MetroFramework::MetroThemeStyle::Dark;
 			this->inputBox->UseSelectable = true;
+			this->inputBox->UseStyleColors = true;
 			this->inputBox->WaterMarkColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(109)), static_cast<System::Int32>(static_cast<System::Byte>(109)),
 				static_cast<System::Int32>(static_cast<System::Byte>(109)));
 			this->inputBox->WaterMarkFont = (gcnew System::Drawing::Font(L"Segoe UI", 12, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Pixel));
@@ -264,9 +282,12 @@ namespace DoowadoGUI {
 			this->FeedbackDisplay->SelectionLength = 0;
 			this->FeedbackDisplay->SelectionStart = 0;
 			this->FeedbackDisplay->Size = System::Drawing::Size(614, 24);
-			this->FeedbackDisplay->Style = MetroFramework::MetroColorStyle::Black;
+			this->FeedbackDisplay->Style = MetroFramework::MetroColorStyle::Orange;
 			this->FeedbackDisplay->TabIndex = 2;
+			this->FeedbackDisplay->Theme = MetroFramework::MetroThemeStyle::Dark;
+			this->FeedbackDisplay->UseCustomForeColor = true;
 			this->FeedbackDisplay->UseSelectable = true;
+			this->FeedbackDisplay->UseStyleColors = true;
 			this->FeedbackDisplay->WaterMarkColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(109)),
 				static_cast<System::Int32>(static_cast<System::Byte>(109)), static_cast<System::Int32>(static_cast<System::Byte>(109)));
 			this->FeedbackDisplay->WaterMarkFont = (gcnew System::Drawing::Font(L"Segoe UI", 12, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Pixel));
@@ -283,7 +304,7 @@ namespace DoowadoGUI {
 			this->dateLabel->AutoSize = true;
 			this->dateLabel->Font = (gcnew System::Drawing::Font(L"Cambria", 11.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->dateLabel->ForeColor = System::Drawing::SystemColors::ControlText;
+			this->dateLabel->ForeColor = System::Drawing::SystemColors::ControlLight;
 			this->dateLabel->Location = System::Drawing::Point(320, 26);
 			this->dateLabel->Name = L"dateLabel";
 			this->dateLabel->Size = System::Drawing::Size(100, 17);
@@ -296,7 +317,7 @@ namespace DoowadoGUI {
 			this->clockLabel->AutoSize = true;
 			this->clockLabel->Font = (gcnew System::Drawing::Font(L"Cambria", 11.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->clockLabel->ForeColor = System::Drawing::SystemColors::ControlText;
+			this->clockLabel->ForeColor = System::Drawing::SystemColors::ControlLight;
 			this->clockLabel->Location = System::Drawing::Point(484, 26);
 			this->clockLabel->Name = L"clockLabel";
 			this->clockLabel->Size = System::Drawing::Size(103, 17);
@@ -310,6 +331,7 @@ namespace DoowadoGUI {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSize = true;
 			this->AutoValidate = System::Windows::Forms::AutoValidate::EnablePreventFocusChange;
+			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->BorderStyle = MetroFramework::Forms::MetroFormBorderStyle::FixedSingle;
 			this->CausesValidation = false;
 			this->ClientSize = System::Drawing::Size(632, 451);
@@ -324,12 +346,14 @@ namespace DoowadoGUI {
 			this->Controls->Add(this->EventListDisplay);
 			this->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->ForeColor = System::Drawing::SystemColors::Highlight;
+			this->ForeColor = System::Drawing::SystemColors::HighlightText;
 			this->HelpButton = true;
 			this->MaximizeBox = false;
 			this->Name = L"GUI";
 			this->Resizable = false;
+			this->Style = MetroFramework::MetroColorStyle::Orange;
 			this->Text = L"Welcome to Doowado";
+			this->Theme = MetroFramework::MetroThemeStyle::Dark;
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::generalForm_KeyDown);
 			this->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &GUI::generalForm_KeyPress);
 			this->ResumeLayout(false);
@@ -343,17 +367,21 @@ namespace DoowadoGUI {
 			if (e->KeyCode == Keys::Enter) {
 					String^ inputText = inputBox->Text;
 
-					checkExit(inputText);
+					if (inputText == "exit") {
+						MetroFramework::MetroMessageBox::Show(this, "Good Bye!", "Exiting the Application:", MessageBoxButtons::OK, MessageBoxIcon::Information);
+						Application::Exit();
+					}
+					else {
+						Controller->processInput(inputText);
 
-					Controller->processInput(inputText);
+						EventListDisplay->Items->Clear();
+						getListofEvents();
 
-					EventListDisplay->Items->Clear();
-					getListofEvents();
+						TaskListDisplay->Items->Clear();
+						getListofTasks();
 
-					TaskListDisplay->Items->Clear();
-					getListofTasks();
-
-					getFeedbackList();
+						getFeedbackList();
+					}
 
 					inputBox->Clear();
 
@@ -462,13 +490,6 @@ namespace DoowadoGUI {
 
 		System::Void getFeedbackList() {
 			FeedbackDisplay->AppendText("\r\n" + Controller->retrieveLastFeedback());
-		}
-		
-		System::Void checkExit(System::String^ input) {
-			if (input == "exit") {
-				MetroFramework::MetroMessageBox::Show(this, "Good Bye!", "Exiting the Application:", MessageBoxButtons::OK, MessageBoxIcon::Information);
-				Application::Exit();
-			}
 		}
 
 	private:

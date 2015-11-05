@@ -54,6 +54,7 @@ System::String ^ DisplayController::retrieveLastFeedback(){
 System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventNameFromList(int index){
 	System::String^ eventID;
 	System::String^ eventDetails;
+	System::Windows::Forms::ListViewItem^ newListViewItem;
 
 	Entry* currentEvent;
 
@@ -66,12 +67,15 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventNameFromL
 	std::string title = currentEvent->getTitle();
 	eventDetails = convertToSystemString(title);
 
-	return (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails}, -1));
+	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
+
+	return newListViewItem;
 }
 
 System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventStartFromList(int index){
 	System::String^ eventID;
 	System::String^ eventDetails;
+	System::Windows::Forms::ListViewItem^ newListViewItem;
 
 	Entry* currentEvent;
 
@@ -84,12 +88,15 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventStartFrom
 	std::string startTime = to_simple_string(currentEvent->getStartTime());
 	eventDetails = convertToSystemString("Start at: " + startTime);
 
-	return (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
+	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
+
+	return newListViewItem;
 }
 
 System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventEndFromList(int index){
 	System::String^ eventID;
 	System::String^ eventDetails;
+	System::Windows::Forms::ListViewItem^ newListViewItem;
 
 	Entry* currentEvent;
 
@@ -102,12 +109,15 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventEndFromLi
 	std::string endTime = to_simple_string(currentEvent->getEndTime());
 	eventDetails = convertToSystemString("End at: "+ endTime);
 
-	return (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
+	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
+
+	return newListViewItem;
 }
 
 System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskNameFromList(int index){
 	System::String^ taskID;
 	System::String^ taskDetails;
+	System::Windows::Forms::ListViewItem^ newListViewItem;
 
 	Entry* currentTask;
 
@@ -120,12 +130,22 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskNameFromLi
 	std::string title = currentTask->getTitle();
 	taskDetails = convertToSystemString(title);
 
-	return (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { taskID, taskDetails }, -1));
+	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { taskID, taskDetails }, -1));
+
+	if (currentTask->isDone()) {
+		newListViewItem->ForeColor = System::Drawing::Color::LightGray;
+	}
+	else if (currentTask->isOverdue()) {
+		newListViewItem->ForeColor = System::Drawing::Color::Maroon;
+	}
+
+	return newListViewItem;
 }
 
 System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskDueFromList(int index){
 	System::String^ taskID;
 	System::String^ taskDetails;
+	System::Windows::Forms::ListViewItem^ newListViewItem;
 
 	Entry* currentTask;
 
@@ -141,8 +161,16 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskDueFromLis
 	else {
 		std::string endTime = to_simple_string(currentTask->getEndTime());
 		taskDetails = convertToSystemString("Due by: " + endTime);
+		newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { taskID, taskDetails }, -1));
 
-		return (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { taskID, taskDetails }, -1));
+		if (currentTask->isDone()) {
+			newListViewItem->ForeColor = System::Drawing::Color::LightGray;
+		}
+		else if (currentTask->isOverdue()) {
+			newListViewItem->ForeColor = System::Drawing::Color::Maroon;
+		}
+
+		return newListViewItem;
 	}
 
 }

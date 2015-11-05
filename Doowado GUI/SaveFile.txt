@@ -26,11 +26,11 @@ Task
 Do ME3112 Tutorial 5
 20151102T120000
 Not Completed
-Not Overdue
+Overdue
 Task
 Do ME2143 Tutorial 5
 20151103T120000
-Not Completed
+Completed
 Not Overdue
 Task
 Do ME3162 Tutorial 5
