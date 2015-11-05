@@ -33,6 +33,8 @@ namespace DoowadoGUI {
 			Controller->initialiseProgram();
 			getListofEvents();
 			getListofTasks();
+
+			this->FocusMe();
 		}
 		 
 	protected:
