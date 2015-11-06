@@ -7,6 +7,7 @@
 #include <sstream>
 #include "msclr\marshal_cppstd.h"
 #include "DisplayController.h"
+#include "HelpGUI.h"
 
 namespace DoowadoGUI {
 
@@ -31,8 +32,7 @@ namespace DoowadoGUI {
 			//initializing program
 			Controller = new DisplayController;
 			Controller->initialiseProgram();
-			getListofEvents();
-			getListofTasks();
+			updateGUI();
 
 			this->FocusMe();
 		}
@@ -72,6 +72,7 @@ namespace DoowadoGUI {
 	private: System::Windows::Forms::Label^  clockLabel;
 
 
+
 	private: System::ComponentModel::IContainer^  components;
 
 
@@ -89,7 +90,6 @@ namespace DoowadoGUI {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(GUI::typeid));
 			this->EventListDisplay = (gcnew System::Windows::Forms::ListView());
 			this->EventID = (gcnew System::Windows::Forms::ColumnHeader());
 			this->EventDesc = (gcnew System::Windows::Forms::ColumnHeader());
@@ -118,7 +118,6 @@ namespace DoowadoGUI {
 			this->EventListDisplay->Name = L"EventListDisplay";
 			this->EventListDisplay->Size = System::Drawing::Size(304, 287);
 			this->EventListDisplay->TabIndex = 0;
-			this->EventListDisplay->TabStop = false;
 			this->EventListDisplay->UseCompatibleStateImageBehavior = false;
 			this->EventListDisplay->View = System::Windows::Forms::View::Details;
 			this->EventListDisplay->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::generalForm_KeyDown);
@@ -147,7 +146,6 @@ namespace DoowadoGUI {
 			this->TaskListDisplay->Name = L"TaskListDisplay";
 			this->TaskListDisplay->Size = System::Drawing::Size(305, 287);
 			this->TaskListDisplay->TabIndex = 0;
-			this->TaskListDisplay->TabStop = false;
 			this->TaskListDisplay->UseCompatibleStateImageBehavior = false;
 			this->TaskListDisplay->View = System::Windows::Forms::View::Details;
 			this->TaskListDisplay->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::generalForm_KeyDown);
@@ -373,16 +371,13 @@ namespace DoowadoGUI {
 						MetroFramework::MetroMessageBox::Show(this, "Good Bye!", "Exiting the Application:", MessageBoxButtons::OK, MessageBoxIcon::Information);
 						Application::Exit();
 					}
+					else if (inputText == "help") {
+						getHelpText();
+					}
 					else {
 						Controller->processInput(inputText);
 
-						EventListDisplay->Items->Clear();
-						getListofEvents();
-
-						TaskListDisplay->Items->Clear();
-						getListofTasks();
-
-						getFeedbackList();
+						updateGUI();
 					}
 
 					inputBox->Clear();
@@ -413,9 +408,12 @@ namespace DoowadoGUI {
 				Controller->processInput("undo");
 			}
 
-			// Redo via Ctrl + R
-			else if (e->KeyData == (Keys::Control | Keys::R)) {
-				Controller->processInput("redo");
+			// Move Cursor left or right on arrow keys
+			else if (e->KeyData == Keys::Right) {
+				inputBox->SelectionStart += 1;
+			}
+			else if (e->KeyData == Keys::Left) {
+				inputBox->SelectionStart -= 1;
 			}
 
 			e->Handled = true;
@@ -434,15 +432,12 @@ namespace DoowadoGUI {
 				MetroFramework::MetroMessageBox::Show(this, "Good Bye!", "Exiting the Application:", MessageBoxButtons::OK, MessageBoxIcon::Information);
 				Application::Exit();
 			}
-
 			// Undo via Ctrl + Z
 			else if (e->KeyData == (Keys::Control | Keys::Z)) {
 				Controller->processInput("undo");
 			}
+			else if (e->KeyData == Keys::Down | e->KeyData == Keys::Up) {
 
-			// Redo via Ctrl + R
-			else if (e->KeyData == (Keys::Control | Keys::R)) {
-				Controller->processInput("redo");
 			}
 			else {
 				inputBox->Text = gcnew System::String(to_string(e->KeyValue).c_str());
@@ -459,6 +454,16 @@ namespace DoowadoGUI {
 				this->ActiveControl = inputBox;
 				inputBox->SelectionStart = inputBox->Text->Length;
 			}
+		}
+
+		System::Void updateGUI() {
+			EventListDisplay->Items->Clear();
+			getListofEvents();
+
+			TaskListDisplay->Items->Clear();
+			getListofTasks();
+
+			getFeedbackList();
 		}
 
 		System::Void getListofEvents() {
@@ -492,6 +497,11 @@ namespace DoowadoGUI {
 
 		System::Void getFeedbackList() {
 			FeedbackDisplay->AppendText("\r\n" + Controller->retrieveLastFeedback());
+		}
+
+		System::Void getHelpText() {
+			HelpGUI^ HelpText = gcnew HelpGUI;
+			HelpText->Show(this);
 		}
 
 	private:

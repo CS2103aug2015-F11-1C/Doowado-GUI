@@ -68,7 +68,7 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventNameFromL
 	eventDetails = convertToSystemString(title);
 
 	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
-
+	newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
 	return newListViewItem;
 }
 
@@ -89,6 +89,7 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventStartFrom
 	eventDetails = convertToSystemString("Start at: " + startTime);
 
 	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
+	newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
 
 	return newListViewItem;
 }
@@ -110,6 +111,7 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventEndFromLi
 	eventDetails = convertToSystemString("End at: "+ endTime);
 
 	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
+	newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
 
 	return newListViewItem;
 }
@@ -138,6 +140,7 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskNameFromLi
 	else if (currentTask->isOverdue()) {
 		newListViewItem->ForeColor = System::Drawing::Color::Maroon;
 	}
+	newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
 
 	return newListViewItem;
 }
@@ -169,6 +172,7 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskDueFromLis
 		else if (currentTask->isOverdue()) {
 			newListViewItem->ForeColor = System::Drawing::Color::Maroon;
 		}
+		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
 
 		return newListViewItem;
 	}

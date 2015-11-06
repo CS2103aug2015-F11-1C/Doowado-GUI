@@ -19,6 +19,7 @@ public:
 	int getEventListSize();
 	int getTaskListSize();
 	int getFeedbackListSize();
+	//System::String^ getHelpDirectory();
 
 	System::String^ retrieveLastFeedback();
 

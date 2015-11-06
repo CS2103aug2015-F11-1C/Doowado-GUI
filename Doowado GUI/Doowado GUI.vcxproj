@@ -157,16 +157,23 @@
   <ItemGroup>
     <ClCompile Include="DisplayController.cpp" />
     <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="HelpGUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisplayController.h" />
     <ClInclude Include="GUI.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="HelpGUI.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI.resx">
       <DependentUpon>GUI.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelpGUI.resx">
+      <DependentUpon>HelpGUI.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
