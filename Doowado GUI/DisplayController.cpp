@@ -1,5 +1,17 @@
 #include "DisplayController.h"
 
+const string EVENT_SEARCH_FEEDBACK = "Showing Events with: ";
+const string TASK_SEARCH_FEEDBACK = "Showing Tasks with: ";
+const string EVENT_SHOW_DATE_FEEDBACK = "Showing Events on ";
+const string TASK_SHOW_DATE_FEEDBACK = "Showing Events on ";
+const string TASK_INCOMPLETE_OVERDUE_FEEDBACK = "Showing Tasks: ";
+const char DOUBLE_QUOTE_CHARACTER = (char)34;
+const string TASK_OVERDUE = "overdue";
+const string TASK_INCOMPLETE = "incomplete";
+const string EMPTY_STRING = "";
+const string EVENT_DEFAULT_FEEDBACK = "today";
+const string TASK_DEFAULT_FEEDBACK = "incomplete";
+
 System::String^ convertToSystemString(std::string inputString) {
 	return gcnew System::String(inputString.c_str());
 }
@@ -51,6 +63,42 @@ System::String ^ DisplayController::retrieveLastFeedback(){
 	return systemFeedback;
 }
 
+System::String ^ DisplayController::retrieveEventListFeedback(){
+	std::string feedback = _logic->getDisplay()->getEventDisplayState();
+
+	if (feedback == EMPTY_STRING) {
+		feedback = EVENT_DEFAULT_FEEDBACK;
+	}
+	
+	//if start with quote its a search
+	if (feedback[0] == DOUBLE_QUOTE_CHARACTER) {
+		return convertToSystemString(EVENT_SEARCH_FEEDBACK + feedback);
+	}
+	else {
+		return convertToSystemString(EVENT_SHOW_DATE_FEEDBACK + feedback);
+	}
+	
+}
+
+System::String ^ DisplayController::retrieveTaskListFeedback(){
+	std::string feedback = _logic->getDisplay()->getTaskDisplayState();
+
+	if (feedback == EMPTY_STRING) {
+		feedback = TASK_DEFAULT_FEEDBACK;
+	}
+
+	//if start with quote its a search
+	if (feedback[0] == DOUBLE_QUOTE_CHARACTER) {
+		return convertToSystemString(TASK_SEARCH_FEEDBACK + feedback);
+	}
+	else if (feedback == TASK_OVERDUE || feedback == TASK_INCOMPLETE){
+		return convertToSystemString(TASK_INCOMPLETE_OVERDUE_FEEDBACK + feedback);
+	}
+	else {
+		return convertToSystemString(TASK_SHOW_DATE_FEEDBACK + feedback);
+	}
+}
+
 System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventNameFromList(int index){
 	System::String^ eventID;
 	System::String^ eventDetails;
@@ -69,6 +117,12 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventNameFromL
 
 	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
 	newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
+	if (currentEvent->isDone()) {
+		newListViewItem->ForeColor = System::Drawing::Color::LightGray;
+	}
+	else if (currentEvent->isClash()) {
+		newListViewItem->ForeColor = System::Drawing::Color::Orange;
+	}
 	return newListViewItem;
 }
 
@@ -90,7 +144,12 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventStartFrom
 
 	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
 	newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
-
+	if (currentEvent->isDone()) {
+		newListViewItem->ForeColor = System::Drawing::Color::LightGray;
+	}
+	else if (currentEvent->isClash()) {
+		newListViewItem->ForeColor = System::Drawing::Color::Orange;
+	}
 	return newListViewItem;
 }
 
@@ -112,7 +171,12 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventEndFromLi
 
 	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
 	newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
-
+	if (currentEvent->isDone()) {
+		newListViewItem->ForeColor = System::Drawing::Color::LightGray;
+	}
+	else if (currentEvent->isClash()) {
+		newListViewItem->ForeColor = System::Drawing::Color::Orange;
+	}
 	return newListViewItem;
 }
 
@@ -138,7 +202,7 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskNameFromLi
 		newListViewItem->ForeColor = System::Drawing::Color::LightGray;
 	}
 	else if (currentTask->isOverdue()) {
-		newListViewItem->ForeColor = System::Drawing::Color::Maroon;
+		newListViewItem->ForeColor = System::Drawing::Color::Red;
 	}
 	newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
 
@@ -170,7 +234,7 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskDueFromLis
 			newListViewItem->ForeColor = System::Drawing::Color::LightGray;
 		}
 		else if (currentTask->isOverdue()) {
-			newListViewItem->ForeColor = System::Drawing::Color::Maroon;
+			newListViewItem->ForeColor = System::Drawing::Color::Red;
 		}
 		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
 

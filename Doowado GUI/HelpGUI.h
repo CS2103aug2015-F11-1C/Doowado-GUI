@@ -19,7 +19,7 @@ namespace DoowadoGUI {
 		{
 			InitializeComponent();
 
-			this->richTextBox1->LoadFile("HelpText.rtf", RichTextBoxStreamType::PlainText);
+			this->richTextBox1->LoadFile("HelpText.rtf", RichTextBoxStreamType::RichText);
 		}
 
 	protected:
@@ -55,25 +55,27 @@ namespace DoowadoGUI {
 			// richTextBox1
 			// 
 			this->richTextBox1->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->richTextBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->richTextBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->richTextBox1->Location = System::Drawing::Point(14, 63);
+			this->richTextBox1->Location = System::Drawing::Point(12, 63);
 			this->richTextBox1->Name = L"richTextBox1";
 			this->richTextBox1->ReadOnly = true;
-			this->richTextBox1->Size = System::Drawing::Size(397, 281);
+			this->richTextBox1->Size = System::Drawing::Size(607, 281);
 			this->richTextBox1->TabIndex = 0;
 			this->richTextBox1->Text = L"Help Text Here";
+			this->richTextBox1->WordWrap = false;
 			this->richTextBox1->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &HelpGUI::richTextBox1_KeyDown);
 			// 
 			// HelpGUI
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(427, 357);
+			this->ClientSize = System::Drawing::Size(633, 357);
 			this->Controls->Add(this->richTextBox1);
 			this->MaximizeBox = false;
 			this->Name = L"HelpGUI";
 			this->Padding = System::Windows::Forms::Padding(0, 60, 0, 0);
+			this->Resizable = false;
 			this->Text = L"Doowado Help";
 			this->ResumeLayout(false);
 

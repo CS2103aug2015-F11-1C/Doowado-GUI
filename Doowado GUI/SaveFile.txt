@@ -2,34 +2,42 @@ Event
 CS2103 Demo
 20151030T110000
 20151030T120000
+Not Clashing
 Event
 CS2103 Lecture
 20151030T140000
 20151030T160000
+Not Clashing
 Event
 Halloween Party
 20151030T190000
 20151030T220000
+Not Clashing
 Event
 Late Night Movie
 20151030T230000
 20151031T010000
+Not Clashing
 Event
 German 1 Lecture
 20151102T080000
 20151102T100000
+Not Clashing
 Event
 Finance Tutorial
 20151102T150000
 20151102T160000
+Not Clashing
 Event
 CS2103 Lecture
 20151106T140000
 20151106T160000
+Not Clashing
 Event
 meeting
 20151106T170000
 20151106T190000
+Not Clashing
 Task
 Do ME3112 Tutorial 5
 20151102T120000
@@ -39,10 +47,15 @@ Task
 Do ME2143 Tutorial 5
 20151103T120000
 Completed
-Not Overdue
+Overdue
 Task
 Do ME3162 Tutorial 5
 20151103T130000
+Not Completed
+Overdue
+Task
+ME3101 Report
+20151109T170000
 Not Completed
 Not Overdue
 FTask

@@ -109,10 +109,10 @@ namespace DoowadoGUI {
 			// EventListDisplay
 			// 
 			this->EventListDisplay->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->EventListDisplay->BackColor = System::Drawing::Color::White;
+			this->EventListDisplay->BackColor = System::Drawing::Color::DimGray;
 			this->EventListDisplay->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->EventListDisplay->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(2) { this->EventID, this->EventDesc });
-			this->EventListDisplay->ForeColor = System::Drawing::Color::Black;
+			this->EventListDisplay->ForeColor = System::Drawing::Color::White;
 			this->EventListDisplay->HeaderStyle = System::Windows::Forms::ColumnHeaderStyle::Nonclickable;
 			this->EventListDisplay->Location = System::Drawing::Point(8, 80);
 			this->EventListDisplay->Name = L"EventListDisplay";
@@ -137,10 +137,10 @@ namespace DoowadoGUI {
 			// TaskListDisplay
 			// 
 			this->TaskListDisplay->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->TaskListDisplay->BackColor = System::Drawing::Color::White;
+			this->TaskListDisplay->BackColor = System::Drawing::Color::DimGray;
 			this->TaskListDisplay->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->TaskListDisplay->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(2) { this->TaskID, this->TaskDescription });
-			this->TaskListDisplay->ForeColor = System::Drawing::Color::Black;
+			this->TaskListDisplay->ForeColor = System::Drawing::Color::White;
 			this->TaskListDisplay->HeaderStyle = System::Windows::Forms::ColumnHeaderStyle::Nonclickable;
 			this->TaskListDisplay->Location = System::Drawing::Point(318, 80);
 			this->TaskListDisplay->Name = L"TaskListDisplay";
@@ -167,7 +167,7 @@ namespace DoowadoGUI {
 			this->EventListLabel->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->EventListLabel->AutoSize = true;
 			this->EventListLabel->FontWeight = MetroFramework::MetroLabelWeight::Bold;
-			this->EventListLabel->ForeColor = System::Drawing::Color::Gainsboro;
+			this->EventListLabel->ForeColor = System::Drawing::Color::DarkTurquoise;
 			this->EventListLabel->Location = System::Drawing::Point(8, 58);
 			this->EventListLabel->Name = L"EventListLabel";
 			this->EventListLabel->Size = System::Drawing::Size(159, 19);
@@ -184,7 +184,7 @@ namespace DoowadoGUI {
 			this->TaskListLabel->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->TaskListLabel->AutoSize = true;
 			this->TaskListLabel->FontWeight = MetroFramework::MetroLabelWeight::Bold;
-			this->TaskListLabel->ForeColor = System::Drawing::Color::Gainsboro;
+			this->TaskListLabel->ForeColor = System::Drawing::Color::DarkTurquoise;
 			this->TaskListLabel->Location = System::Drawing::Point(318, 58);
 			this->TaskListLabel->Name = L"TaskListLabel";
 			this->TaskListLabel->Size = System::Drawing::Size(142, 19);
@@ -497,6 +497,9 @@ namespace DoowadoGUI {
 
 		System::Void getFeedbackList() {
 			FeedbackDisplay->AppendText("\r\n" + Controller->retrieveLastFeedback());
+
+			EventListLabel->Text = Controller->retrieveEventListFeedback();
+			TaskListLabel->Text = Controller->retrieveTaskListFeedback();
 		}
 
 		System::Void getHelpText() {
@@ -507,13 +510,13 @@ namespace DoowadoGUI {
 	private:
 		System::Void inputBox_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 			if (inputBox->Text == "add") {
-				feedbackLabel->Text = "add <Entry name> on <DD/MM/YYYY or day> from <start time> to <end time>";
+				feedbackLabel->Text = "add <Entry name> from <start date/day> <start time> to <start date/day> <end time>";
 			}
 			else if (inputBox->Text == "edit") {
-				feedbackLabel->Text = "edit <index> <what to change>";
+				feedbackLabel->Text = "edit <index> <new description> OR edit <index> start/end <new time>";
 			}
 			else if (inputBox->Text == "show") {
-				feedbackLabel->Text = "show <date / day>";
+				feedbackLabel->Text = "show <date / day> OR show from <date> to <date>";
 			}
 			else if (inputBox->Text == "delete") {
 				feedbackLabel->Text = "delete <index>";
@@ -522,10 +525,16 @@ namespace DoowadoGUI {
 				feedbackLabel->Text = "undo";
 			}
 			else if (inputBox->Text == "search") {
-				feedbackLabel->Text == "search <keyword>";
+				feedbackLabel->Text = "search <keyword 1> | <keyword 2> | <and so on>";
+			}
+			else if (inputBox->Text == "help") {
+				feedbackLabel->Text = "help";
+			}
+			else if (inputBox->Text == "save") {
+				feedbackLabel->Text = "save <new save directory>";
 			}
 			else if (inputBox->Text == ""){
-				feedbackLabel->Text = "add / edit / show / search / delete / undo / save";
+				feedbackLabel->Text = "add / edit / show / search / delete / undo / save / help";
 			}
 		}
 

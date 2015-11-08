@@ -22,6 +22,8 @@ public:
 	//System::String^ getHelpDirectory();
 
 	System::String^ retrieveLastFeedback();
+	System::String^ retrieveEventListFeedback();
+	System::String^ retrieveTaskListFeedback();
 
 	System::Windows::Forms::ListViewItem^ retrieveEventNameFromList(int index);
 	System::Windows::Forms::ListViewItem^ retrieveEventStartFromList(int index);
