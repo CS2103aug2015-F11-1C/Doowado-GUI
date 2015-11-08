@@ -1,19 +1,32 @@
 #pragma once
 
 #include "Logic.h"
-#include <msclr\marshal_cppstd.h>
+#include <msclr/marshal_cppstd.h>
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
-public ref class DisplayController {
+class DisplayController {
 private:
-	Logic* _logic;
+	Logic *_logic;
 
 public:
 	DisplayController();
-	System::Void processInput(System::String^ inputString);
+	~DisplayController();
+
+	void initialiseProgram();
+
+	void processInput(System::String^ inputString);
 	int getEventListSize();
 	int getTaskListSize();
-	System::Windows::Forms::ListViewItem^ retrieveEventFromList(int index);
-	System::Windows::Forms::ListViewItem^ retrieveTaskFromList(int index);
+	int getFeedbackListSize();
+	//System::String^ getHelpDirectory();
+
+	System::String^ retrieveLastFeedback();
+
+	System::Windows::Forms::ListViewItem^ retrieveEventNameFromList(int index);
+	System::Windows::Forms::ListViewItem^ retrieveEventStartFromList(int index);
+	System::Windows::Forms::ListViewItem^ retrieveEventEndFromList(int index);
+
+	System::Windows::Forms::ListViewItem^ retrieveTaskNameFromList(int index);
+	System::Windows::Forms::ListViewItem^ retrieveTaskDueFromList(int index);
 };
