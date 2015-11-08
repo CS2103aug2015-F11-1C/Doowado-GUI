@@ -375,9 +375,14 @@ namespace DoowadoGUI {
 						getHelpText();
 					}
 					else {
-						Controller->processInput(inputText);
+						try {
+							Controller->processInput(inputText);
 
-						updateGUI();
+							updateGUI();
+						}
+						catch (System::String^ errorMessage) {
+							MetroFramework::MetroMessageBox::Show(this, errorMessage, "User Input Error:", MessageBoxButtons::OK, MessageBoxIcon::Error);
+						}
 					}
 
 					inputBox->Clear();

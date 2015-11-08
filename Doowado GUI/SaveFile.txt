@@ -58,6 +58,11 @@ ME3101 Report
 20151109T170000
 Not Completed
 Not Overdue
+Task
+CS2103 V0.5
+20151109T235900
+Not Completed
+Not Overdue
 FTask
 Study for Finance Quiz
 Not Completed

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Logic.h"
+#include "CmdBuilderException.h"
 #include <msclr/marshal_cppstd.h>
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>

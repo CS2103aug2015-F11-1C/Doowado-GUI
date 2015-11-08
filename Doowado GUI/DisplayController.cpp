@@ -35,7 +35,19 @@ void DisplayController::initialiseProgram() {
 void DisplayController::processInput(System::String^ inputString){
 	std::string stdInput = convertToStdString(inputString);
 
-	_logic->processCommand(stdInput);
+	try {
+		_logic->processCommand(stdInput);
+	}
+	catch (std::exception &e) {
+		System::String^ errorMessage = convertToSystemString(e.what());
+
+		throw (errorMessage);
+	}
+	catch (CmdBuilderException &e) {
+		System::String^ errorMessage = convertToSystemString(e.getMessage());
+
+		throw (errorMessage);
+	}
 }
 
 int DisplayController::getEventListSize() {
