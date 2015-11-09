@@ -3,7 +3,7 @@
 const string EVENT_SEARCH_FEEDBACK = "Showing Events with: ";
 const string TASK_SEARCH_FEEDBACK = "Showing Tasks with: ";
 const string EVENT_SHOW_DATE_FEEDBACK = "Showing Events on ";
-const string TASK_SHOW_DATE_FEEDBACK = "Showing Events on ";
+const string TASK_SHOW_DATE_FEEDBACK = "Showing Tasks on ";
 const string TASK_INCOMPLETE_OVERDUE_FEEDBACK = "Showing Tasks: ";
 const char DOUBLE_QUOTE_CHARACTER = (char)34;
 const string TASK_OVERDUE = "overdue";
@@ -88,6 +88,11 @@ void DisplayController::processInput(System::String^ inputString){
 		throw (errorMessage);
 	}
 	catch (CommandException &e) {
+		System::String^ errorMessage = convertToSystemString(e.getMessage());
+
+		throw (errorMessage);
+	}
+	catch (StorageException &e) {
 		System::String^ errorMessage = convertToSystemString(e.getMessage());
 
 		throw (errorMessage);

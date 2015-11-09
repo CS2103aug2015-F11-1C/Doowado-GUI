@@ -370,11 +370,23 @@ namespace DoowadoGUI {
 					if (inputText == "exit") {
 						MetroFramework::MetroMessageBox::Show(this, "Good Bye!", "Exiting the Application:", MessageBoxButtons::OK, MessageBoxIcon::Information);
 						Application::Exit();
-					}
-					else if (inputText == "help") {
+					} else if (inputText == "help") {
 						getHelpText();
-					}
-					else {
+					} else if (inputText == "save") {
+						OpenFileDialog^ filebrowser = gcnew OpenFileDialog;
+						filebrowser->InitialDirectory = "c:\\";
+						filebrowser->Filter = "txt files (*.txt)|*.txt";
+						filebrowser->FilterIndex = 1;
+						filebrowser->Multiselect = false;
+
+						if (filebrowser->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
+							String^ filepath = filebrowser->FileName;
+
+							Controller->processInput(inputText + " " + filepath);
+
+							updateGUI();
+						}
+					} else {
 						try {
 							Controller->processInput(inputText);
 
