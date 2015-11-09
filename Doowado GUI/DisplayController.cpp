@@ -12,6 +12,7 @@ const string TASK_COMPLETED = "completed";
 const string EMPTY_STRING = "";
 const string EVENT_DEFAULT_FEEDBACK = "today";
 const string TASK_DEFAULT_FEEDBACK = "incomplete";
+const string DEFAULT_ERROR_MESSAGE = "This input is not supported";
 
 System::String^ convertToSystemString(std::string inputString) {
 	return gcnew System::String(inputString.c_str());
@@ -19,6 +20,43 @@ System::String^ convertToSystemString(std::string inputString) {
 
 std::string convertToStdString(System::String^ inputString) {
 	return msclr::interop::marshal_as< std::string >(inputString);
+}
+
+void changeItemTitleFont(System::Windows::Forms::ListViewItem^ newListViewItem, Entry* currentEntry, Entry* lastUpdatedEntry) {
+	if (currentEntry == lastUpdatedEntry) {
+		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Pixel));
+	}
+	else {
+		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
+	}
+}
+
+void changeItemDateFont(System::Windows::Forms::ListViewItem ^ newListViewItem, Entry * currentEntry, Entry* lastUpdatedEntry){
+	if (currentEntry == lastUpdatedEntry) {
+		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Pixel));
+	}
+	else {
+		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
+	}
+}
+
+void changeEventColourByStatus(System::Windows::Forms::ListViewItem ^ newListViewItem, Entry * currentEvent){
+	if (currentEvent->isDone()) {
+		newListViewItem->ForeColor = System::Drawing::Color::Gray;
+	}
+	else if (currentEvent->isClash()) {
+		newListViewItem->ForeColor = System::Drawing::Color::Orange;
+	}
+}
+
+void changeTaskColourByStatus(System::Windows::Forms::ListViewItem ^ newListViewItem, Entry * currentTask)
+{
+	if (currentTask->isDone()) {
+		newListViewItem->ForeColor = System::Drawing::Color::Gray;
+	}
+	else if (currentTask->isOverdue()) {
+		newListViewItem->ForeColor = System::Drawing::Color::DarkRed;
+	}
 }
 
 DisplayController::DisplayController(){
@@ -53,6 +91,9 @@ void DisplayController::processInput(System::String^ inputString){
 		System::String^ errorMessage = convertToSystemString(e.getMessage());
 
 		throw (errorMessage);
+	}
+	catch (...) {
+		throw (DEFAULT_ERROR_MESSAGE);
 	}
 }
 
@@ -135,21 +176,10 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventNameFromL
 
 	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
 	
-	//Highlight the last updated entry
-	if (currentEvent == _logic->getDisplay()->retrieveLastUpdatedEntry()) {
-		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Pixel));
-	}
-	else {
-		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
-	}
+	changeItemTitleFont(newListViewItem, currentEvent, _logic->getDisplay()->retrieveLastUpdatedEntry());
 
-	//Change colour based on status
-	if (currentEvent->isDone()) {
-		newListViewItem->ForeColor = System::Drawing::Color::LightGray;
-	}
-	else if (currentEvent->isClash()) {
-		newListViewItem->ForeColor = System::Drawing::Color::Orange;
-	}
+	changeEventColourByStatus(newListViewItem, currentEvent);
+	
 	return newListViewItem;
 }
 
@@ -171,21 +201,9 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventStartFrom
 
 	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
 	
-	//Highlight the last updated entry
-	if (currentEvent == _logic->getDisplay()->retrieveLastUpdatedEntry()) {
-		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Pixel));
-	}
-	else {
-		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
-	}
+	changeItemDateFont(newListViewItem, currentEvent, _logic->getDisplay()->retrieveLastUpdatedEntry());
 
-	//Change colour based on status
-	if (currentEvent->isDone()) {
-		newListViewItem->ForeColor = System::Drawing::Color::LightGray;
-	}
-	else if (currentEvent->isClash()) {
-		newListViewItem->ForeColor = System::Drawing::Color::Orange;
-	}
+	changeEventColourByStatus(newListViewItem, currentEvent);
 
 	return newListViewItem;
 }
@@ -208,21 +226,9 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventEndFromLi
 
 	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
 	
-	//Highlight the last updated entry
-	if (currentEvent == _logic->getDisplay()->retrieveLastUpdatedEntry()) {
-		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Pixel));
-	}
-	else {
-		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
-	}
+	changeItemDateFont(newListViewItem, currentEvent, _logic->getDisplay()->retrieveLastUpdatedEntry());
 
-	//Change colour based on status
-	if (currentEvent->isDone()) {
-		newListViewItem->ForeColor = System::Drawing::Color::LightGray;
-	}
-	else if (currentEvent->isClash()) {
-		newListViewItem->ForeColor = System::Drawing::Color::Orange;
-	}
+	changeEventColourByStatus(newListViewItem, currentEvent);
 
 	return newListViewItem;
 }
@@ -245,20 +251,9 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskNameFromLi
 
 	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { taskID, taskDetails }, -1));
 
-	//Highlight the Last Updated Entry
-	if (currentTask == _logic->getDisplay()->retrieveLastUpdatedEntry()) {
-		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Pixel));
-	}
-	else {
-		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
-	}
-	//CHange colour based on task status
-	if (currentTask->isDone()) {
-		newListViewItem->ForeColor = System::Drawing::Color::LightGray;
-	}
-	else if (currentTask->isOverdue()) {
-		newListViewItem->ForeColor = System::Drawing::Color::DarkRed;
-	}
+	changeItemTitleFont(newListViewItem, currentTask, _logic->getDisplay()->retrieveLastUpdatedEntry());
+
+	changeTaskColourByStatus(newListViewItem, currentTask);
 
 	return newListViewItem;
 }
@@ -284,20 +279,9 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskDueFromLis
 		taskDetails = convertToSystemString("Due by: " + endTime);
 		newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { taskID, taskDetails }, -1));
 
-		//Highlight the Last Updated Entry
-		if (currentTask == _logic->getDisplay()->retrieveLastUpdatedEntry()) {
-			newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 1, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Pixel));
-		}
-		else {
-			newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
-		}
-		//CHange colour based on task status
-		if (currentTask->isDone()) {
-			newListViewItem->ForeColor = System::Drawing::Color::LightGray;
-		}
-		else if (currentTask->isOverdue()) {
-			newListViewItem->ForeColor = System::Drawing::Color::DarkRed;
-		}
+		changeItemDateFont(newListViewItem, currentTask, _logic->getDisplay()->retrieveLastUpdatedEntry());
+
+		changeTaskColourByStatus(newListViewItem, currentTask);
 
 		return newListViewItem;
 	}

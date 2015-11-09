@@ -57,11 +57,8 @@ namespace DoowadoGUI {
 	private: System::Windows::Forms::ColumnHeader^  TaskID;
 	private: System::Windows::Forms::ColumnHeader^  TaskDescription;
 
-
 	private: MetroFramework::Controls::MetroLabel^  EventListLabel;
 	private: MetroFramework::Controls::MetroLabel^  TaskListLabel;
-
-
 
 	private: MetroFramework::Controls::MetroTextBox^  inputBox;
 	private: MetroFramework::Controls::MetroLabel^  feedbackLabel;
@@ -71,10 +68,7 @@ namespace DoowadoGUI {
 	private: System::Windows::Forms::Label^  dateLabel;
 	private: System::Windows::Forms::Label^  clockLabel;
 
-
-
 	private: System::ComponentModel::IContainer^  components;
-
 
 	private:
 		/// <summary>
@@ -109,13 +103,14 @@ namespace DoowadoGUI {
 			// EventListDisplay
 			// 
 			this->EventListDisplay->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->EventListDisplay->BackColor = System::Drawing::Color::DimGray;
+			this->EventListDisplay->BackColor = System::Drawing::Color::White;
 			this->EventListDisplay->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->EventListDisplay->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(2) { this->EventID, this->EventDesc });
-			this->EventListDisplay->ForeColor = System::Drawing::Color::White;
+			this->EventListDisplay->ForeColor = System::Drawing::Color::Black;
 			this->EventListDisplay->HeaderStyle = System::Windows::Forms::ColumnHeaderStyle::Nonclickable;
 			this->EventListDisplay->Location = System::Drawing::Point(8, 80);
 			this->EventListDisplay->Name = L"EventListDisplay";
+			this->EventListDisplay->ShowItemToolTips = true;
 			this->EventListDisplay->Size = System::Drawing::Size(317, 287);
 			this->EventListDisplay->TabIndex = 0;
 			this->EventListDisplay->UseCompatibleStateImageBehavior = false;
@@ -127,23 +122,24 @@ namespace DoowadoGUI {
 			// 
 			this->EventID->Text = L"ID.";
 			this->EventID->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
-			this->EventID->Width = 50;
+			this->EventID->Width = 35;
 			// 
 			// EventDesc
 			// 
 			this->EventDesc->Text = L"Event Description";
-			this->EventDesc->Width = 250;
+			this->EventDesc->Width = 265;
 			// 
 			// TaskListDisplay
 			// 
 			this->TaskListDisplay->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->TaskListDisplay->BackColor = System::Drawing::Color::DimGray;
+			this->TaskListDisplay->BackColor = System::Drawing::Color::White;
 			this->TaskListDisplay->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->TaskListDisplay->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(2) { this->TaskID, this->TaskDescription });
-			this->TaskListDisplay->ForeColor = System::Drawing::Color::White;
+			this->TaskListDisplay->ForeColor = System::Drawing::Color::Black;
 			this->TaskListDisplay->HeaderStyle = System::Windows::Forms::ColumnHeaderStyle::Nonclickable;
 			this->TaskListDisplay->Location = System::Drawing::Point(331, 80);
 			this->TaskListDisplay->Name = L"TaskListDisplay";
+			this->TaskListDisplay->ShowItemToolTips = true;
 			this->TaskListDisplay->Size = System::Drawing::Size(317, 287);
 			this->TaskListDisplay->TabIndex = 0;
 			this->TaskListDisplay->UseCompatibleStateImageBehavior = false;
@@ -155,12 +151,12 @@ namespace DoowadoGUI {
 			// 
 			this->TaskID->Text = L"ID.";
 			this->TaskID->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
-			this->TaskID->Width = 50;
+			this->TaskID->Width = 35;
 			// 
 			// TaskDescription
 			// 
 			this->TaskDescription->Text = L"Task Description";
-			this->TaskDescription->Width = 250;
+			this->TaskDescription->Width = 265;
 			// 
 			// EventListLabel
 			// 
@@ -356,7 +352,7 @@ namespace DoowadoGUI {
 			this->Name = L"GUI";
 			this->Resizable = false;
 			this->Style = MetroFramework::MetroColorStyle::Orange;
-			this->Text = L"Welcome to Doowado";
+			this->Text = L"Doowado";
 			this->Theme = MetroFramework::MetroThemeStyle::Dark;
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &GUI::generalForm_KeyDown);
 			this->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &GUI::generalForm_KeyPress);
@@ -422,7 +418,9 @@ namespace DoowadoGUI {
 				inputBox->SelectionStart += 1;
 			}
 			else if (e->KeyData == Keys::Left) {
-				inputBox->SelectionStart -= 1;
+				if (inputBox->SelectionStart != 0) {
+					inputBox->SelectionStart -= 1;
+				}
 			}
 
 			e->Handled = true;

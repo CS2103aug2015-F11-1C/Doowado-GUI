@@ -43,6 +43,16 @@ late night movie
 20151106T230000
 20151107T010000
 Not Clashing
+Event
+lunch with john
+20151110T120000
+20151110T130000
+Not Clashing
+Event
+meeting
+20151110T170000
+20151110T180000
+Clashing
 Task
 Do ME3112 Tutorial 5
 20151102T120000
@@ -61,8 +71,13 @@ Overdue
 Task
 ME3101 Report
 20151109T170000
+Completed
+Overdue
+Task
+do tutorial 2
+20151109T190000
 Not Completed
-Not Overdue
+Overdue
 Task
 CS2103 V0.5
 20151109T235900
@@ -106,5 +121,33 @@ Not Completed
 Not Overdue
 FTask
 Learn Web Development
+Not Completed
+Not Overdue
+FTask
+Watch Mission Impossible with JiaQi
+Not Completed
+Not Overdue
+FTask
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Not Completed
+Not Overdue
+FTask
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Not Completed
+Not Overdue
+FTask
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Not Completed
+Not Overdue
+FTask
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Not Completed
+Not Overdue
+FTask
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Not Completed
+Not Overdue
+FTask
+lunch with john on tmrw 1700 to 1800
 Not Completed
 Not Overdue
