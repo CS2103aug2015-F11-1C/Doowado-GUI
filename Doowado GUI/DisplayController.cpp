@@ -257,7 +257,7 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskNameFromLi
 		newListViewItem->ForeColor = System::Drawing::Color::LightGray;
 	}
 	else if (currentTask->isOverdue()) {
-		newListViewItem->ForeColor = System::Drawing::Color::Red;
+		newListViewItem->ForeColor = System::Drawing::Color::DarkRed;
 	}
 
 	return newListViewItem;
@@ -296,7 +296,7 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskDueFromLis
 			newListViewItem->ForeColor = System::Drawing::Color::LightGray;
 		}
 		else if (currentTask->isOverdue()) {
-			newListViewItem->ForeColor = System::Drawing::Color::Red;
+			newListViewItem->ForeColor = System::Drawing::Color::DarkRed;
 		}
 
 		return newListViewItem;

@@ -166,11 +166,12 @@ namespace DoowadoGUI {
 			// 
 			this->EventListLabel->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->EventListLabel->AutoSize = true;
+			this->EventListLabel->FontSize = MetroFramework::MetroLabelSize::Small;
 			this->EventListLabel->FontWeight = MetroFramework::MetroLabelWeight::Regular;
 			this->EventListLabel->ForeColor = System::Drawing::Color::DarkTurquoise;
-			this->EventListLabel->Location = System::Drawing::Point(8, 58);
+			this->EventListLabel->Location = System::Drawing::Point(8, 60);
 			this->EventListLabel->Name = L"EventListLabel";
-			this->EventListLabel->Size = System::Drawing::Size(159, 19);
+			this->EventListLabel->Size = System::Drawing::Size(124, 15);
 			this->EventListLabel->Style = MetroFramework::MetroColorStyle::Silver;
 			this->EventListLabel->TabIndex = 0;
 			this->EventListLabel->Text = L"Your Events for Today:";
@@ -183,11 +184,12 @@ namespace DoowadoGUI {
 			// 
 			this->TaskListLabel->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->TaskListLabel->AutoSize = true;
+			this->TaskListLabel->FontSize = MetroFramework::MetroLabelSize::Small;
 			this->TaskListLabel->FontWeight = MetroFramework::MetroLabelWeight::Regular;
 			this->TaskListLabel->ForeColor = System::Drawing::Color::DarkTurquoise;
-			this->TaskListLabel->Location = System::Drawing::Point(331, 58);
+			this->TaskListLabel->Location = System::Drawing::Point(330, 60);
 			this->TaskListLabel->Name = L"TaskListLabel";
-			this->TaskListLabel->Size = System::Drawing::Size(142, 19);
+			this->TaskListLabel->Size = System::Drawing::Size(112, 15);
 			this->TaskListLabel->Style = MetroFramework::MetroColorStyle::White;
 			this->TaskListLabel->TabIndex = 0;
 			this->TaskListLabel->Text = L"Your Pending Tasks:";
@@ -320,7 +322,7 @@ namespace DoowadoGUI {
 			this->clockLabel->Font = (gcnew System::Drawing::Font(L"Cambria", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->clockLabel->ForeColor = System::Drawing::SystemColors::ControlLight;
-			this->clockLabel->Location = System::Drawing::Point(510, 17);
+			this->clockLabel->Location = System::Drawing::Point(515, 17);
 			this->clockLabel->Name = L"clockLabel";
 			this->clockLabel->Size = System::Drawing::Size(113, 19);
 			this->clockLabel->TabIndex = 0;
