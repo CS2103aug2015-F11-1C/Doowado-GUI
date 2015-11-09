@@ -8,6 +8,7 @@ const string TASK_INCOMPLETE_OVERDUE_FEEDBACK = "Showing Tasks: ";
 const char DOUBLE_QUOTE_CHARACTER = (char)34;
 const string TASK_OVERDUE = "overdue";
 const string TASK_INCOMPLETE = "incomplete";
+const string TASK_COMPLETED = "completed";
 const string EMPTY_STRING = "";
 const string EVENT_DEFAULT_FEEDBACK = "today";
 const string TASK_DEFAULT_FEEDBACK = "incomplete";
@@ -44,6 +45,11 @@ void DisplayController::processInput(System::String^ inputString){
 		throw (errorMessage);
 	}
 	catch (CmdBuilderException &e) {
+		System::String^ errorMessage = convertToSystemString(e.getMessage());
+
+		throw (errorMessage);
+	}
+	catch (CommandException &e) {
 		System::String^ errorMessage = convertToSystemString(e.getMessage());
 
 		throw (errorMessage);
@@ -103,7 +109,7 @@ System::String ^ DisplayController::retrieveTaskListFeedback(){
 	if (feedback[0] == DOUBLE_QUOTE_CHARACTER) {
 		return convertToSystemString(TASK_SEARCH_FEEDBACK + feedback);
 	}
-	else if (feedback == TASK_OVERDUE || feedback == TASK_INCOMPLETE){
+	else if (feedback == TASK_OVERDUE || feedback == TASK_INCOMPLETE || feedback == TASK_COMPLETED){
 		return convertToSystemString(TASK_INCOMPLETE_OVERDUE_FEEDBACK + feedback);
 	}
 	else {
@@ -128,7 +134,16 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventNameFromL
 	eventDetails = convertToSystemString(title);
 
 	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
-	newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
+	
+	//Highlight the last updated entry
+	if (currentEvent == _logic->getDisplay()->retrieveLastUpdatedEntry()) {
+		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Pixel));
+	}
+	else {
+		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
+	}
+
+	//Change colour based on status
 	if (currentEvent->isDone()) {
 		newListViewItem->ForeColor = System::Drawing::Color::LightGray;
 	}
@@ -155,13 +170,23 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventStartFrom
 	eventDetails = convertToSystemString("Start at: " + startTime);
 
 	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
-	newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
+	
+	//Highlight the last updated entry
+	if (currentEvent == _logic->getDisplay()->retrieveLastUpdatedEntry()) {
+		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Pixel));
+	}
+	else {
+		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
+	}
+
+	//Change colour based on status
 	if (currentEvent->isDone()) {
 		newListViewItem->ForeColor = System::Drawing::Color::LightGray;
 	}
 	else if (currentEvent->isClash()) {
 		newListViewItem->ForeColor = System::Drawing::Color::Orange;
 	}
+
 	return newListViewItem;
 }
 
@@ -182,13 +207,23 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveEventEndFromLi
 	eventDetails = convertToSystemString("End at: "+ endTime);
 
 	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { eventID, eventDetails }, -1));
-	newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
+	
+	//Highlight the last updated entry
+	if (currentEvent == _logic->getDisplay()->retrieveLastUpdatedEntry()) {
+		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Pixel));
+	}
+	else {
+		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
+	}
+
+	//Change colour based on status
 	if (currentEvent->isDone()) {
 		newListViewItem->ForeColor = System::Drawing::Color::LightGray;
 	}
 	else if (currentEvent->isClash()) {
 		newListViewItem->ForeColor = System::Drawing::Color::Orange;
 	}
+
 	return newListViewItem;
 }
 
@@ -210,13 +245,20 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskNameFromLi
 
 	newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { taskID, taskDetails }, -1));
 
+	//Highlight the Last Updated Entry
+	if (currentTask == _logic->getDisplay()->retrieveLastUpdatedEntry()) {
+		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Pixel));
+	}
+	else {
+		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
+	}
+	//CHange colour based on task status
 	if (currentTask->isDone()) {
 		newListViewItem->ForeColor = System::Drawing::Color::LightGray;
 	}
 	else if (currentTask->isOverdue()) {
 		newListViewItem->ForeColor = System::Drawing::Color::Red;
 	}
-	newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
 
 	return newListViewItem;
 }
@@ -242,13 +284,20 @@ System::Windows::Forms::ListViewItem ^ DisplayController::retrieveTaskDueFromLis
 		taskDetails = convertToSystemString("Due by: " + endTime);
 		newListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^>(2) { taskID, taskDetails }, -1));
 
+		//Highlight the Last Updated Entry
+		if (currentTask == _logic->getDisplay()->retrieveLastUpdatedEntry()) {
+			newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 1, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Pixel));
+		}
+		else {
+			newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
+		}
+		//CHange colour based on task status
 		if (currentTask->isDone()) {
 			newListViewItem->ForeColor = System::Drawing::Color::LightGray;
 		}
 		else if (currentTask->isOverdue()) {
 			newListViewItem->ForeColor = System::Drawing::Color::Red;
 		}
-		newListViewItem->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Pixel));
 
 		return newListViewItem;
 	}

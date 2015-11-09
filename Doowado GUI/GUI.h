@@ -116,7 +116,7 @@ namespace DoowadoGUI {
 			this->EventListDisplay->HeaderStyle = System::Windows::Forms::ColumnHeaderStyle::Nonclickable;
 			this->EventListDisplay->Location = System::Drawing::Point(8, 80);
 			this->EventListDisplay->Name = L"EventListDisplay";
-			this->EventListDisplay->Size = System::Drawing::Size(304, 287);
+			this->EventListDisplay->Size = System::Drawing::Size(317, 287);
 			this->EventListDisplay->TabIndex = 0;
 			this->EventListDisplay->UseCompatibleStateImageBehavior = false;
 			this->EventListDisplay->View = System::Windows::Forms::View::Details;
@@ -142,9 +142,9 @@ namespace DoowadoGUI {
 			this->TaskListDisplay->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(2) { this->TaskID, this->TaskDescription });
 			this->TaskListDisplay->ForeColor = System::Drawing::Color::White;
 			this->TaskListDisplay->HeaderStyle = System::Windows::Forms::ColumnHeaderStyle::Nonclickable;
-			this->TaskListDisplay->Location = System::Drawing::Point(318, 80);
+			this->TaskListDisplay->Location = System::Drawing::Point(331, 80);
 			this->TaskListDisplay->Name = L"TaskListDisplay";
-			this->TaskListDisplay->Size = System::Drawing::Size(305, 287);
+			this->TaskListDisplay->Size = System::Drawing::Size(317, 287);
 			this->TaskListDisplay->TabIndex = 0;
 			this->TaskListDisplay->UseCompatibleStateImageBehavior = false;
 			this->TaskListDisplay->View = System::Windows::Forms::View::Details;
@@ -166,12 +166,12 @@ namespace DoowadoGUI {
 			// 
 			this->EventListLabel->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->EventListLabel->AutoSize = true;
-			this->EventListLabel->FontWeight = MetroFramework::MetroLabelWeight::Bold;
+			this->EventListLabel->FontWeight = MetroFramework::MetroLabelWeight::Regular;
 			this->EventListLabel->ForeColor = System::Drawing::Color::DarkTurquoise;
 			this->EventListLabel->Location = System::Drawing::Point(8, 58);
 			this->EventListLabel->Name = L"EventListLabel";
 			this->EventListLabel->Size = System::Drawing::Size(159, 19);
-			this->EventListLabel->Style = MetroFramework::MetroColorStyle::Blue;
+			this->EventListLabel->Style = MetroFramework::MetroColorStyle::Silver;
 			this->EventListLabel->TabIndex = 0;
 			this->EventListLabel->Text = L"Your Events for Today:";
 			this->EventListLabel->Theme = MetroFramework::MetroThemeStyle::Dark;
@@ -183,9 +183,9 @@ namespace DoowadoGUI {
 			// 
 			this->TaskListLabel->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->TaskListLabel->AutoSize = true;
-			this->TaskListLabel->FontWeight = MetroFramework::MetroLabelWeight::Bold;
+			this->TaskListLabel->FontWeight = MetroFramework::MetroLabelWeight::Regular;
 			this->TaskListLabel->ForeColor = System::Drawing::Color::DarkTurquoise;
-			this->TaskListLabel->Location = System::Drawing::Point(318, 58);
+			this->TaskListLabel->Location = System::Drawing::Point(331, 58);
 			this->TaskListLabel->Name = L"TaskListLabel";
 			this->TaskListLabel->Size = System::Drawing::Size(142, 19);
 			this->TaskListLabel->Style = MetroFramework::MetroColorStyle::White;
@@ -203,7 +203,7 @@ namespace DoowadoGUI {
 			// 
 			// 
 			this->inputBox->CustomButton->Image = nullptr;
-			this->inputBox->CustomButton->Location = System::Drawing::Point(592, 1);
+			this->inputBox->CustomButton->Location = System::Drawing::Point(618, 1);
 			this->inputBox->CustomButton->Name = L"";
 			this->inputBox->CustomButton->Size = System::Drawing::Size(21, 21);
 			this->inputBox->CustomButton->Style = MetroFramework::MetroColorStyle::Blue;
@@ -220,7 +220,7 @@ namespace DoowadoGUI {
 			this->inputBox->SelectedText = L"";
 			this->inputBox->SelectionLength = 0;
 			this->inputBox->SelectionStart = 0;
-			this->inputBox->Size = System::Drawing::Size(614, 23);
+			this->inputBox->Size = System::Drawing::Size(640, 23);
 			this->inputBox->Style = MetroFramework::MetroColorStyle::Orange;
 			this->inputBox->TabIndex = 1;
 			this->inputBox->Text = L"Enter Command Here";
@@ -262,7 +262,7 @@ namespace DoowadoGUI {
 			// 
 			// 
 			this->FeedbackDisplay->CustomButton->Image = nullptr;
-			this->FeedbackDisplay->CustomButton->Location = System::Drawing::Point(592, 2);
+			this->FeedbackDisplay->CustomButton->Location = System::Drawing::Point(618, 2);
 			this->FeedbackDisplay->CustomButton->Name = L"";
 			this->FeedbackDisplay->CustomButton->Size = System::Drawing::Size(19, 19);
 			this->FeedbackDisplay->CustomButton->Style = MetroFramework::MetroColorStyle::Blue;
@@ -281,7 +281,7 @@ namespace DoowadoGUI {
 			this->FeedbackDisplay->SelectedText = L"";
 			this->FeedbackDisplay->SelectionLength = 0;
 			this->FeedbackDisplay->SelectionStart = 0;
-			this->FeedbackDisplay->Size = System::Drawing::Size(614, 24);
+			this->FeedbackDisplay->Size = System::Drawing::Size(640, 24);
 			this->FeedbackDisplay->Style = MetroFramework::MetroColorStyle::Orange;
 			this->FeedbackDisplay->TabIndex = 2;
 			this->FeedbackDisplay->Theme = MetroFramework::MetroThemeStyle::Dark;
@@ -301,26 +301,28 @@ namespace DoowadoGUI {
 			// 
 			// dateLabel
 			// 
+			this->dateLabel->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->dateLabel->AutoSize = true;
-			this->dateLabel->Font = (gcnew System::Drawing::Font(L"Cambria", 11.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->dateLabel->Font = (gcnew System::Drawing::Font(L"Cambria", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->dateLabel->ForeColor = System::Drawing::SystemColors::ControlLight;
-			this->dateLabel->Location = System::Drawing::Point(320, 26);
+			this->dateLabel->Location = System::Drawing::Point(328, 18);
 			this->dateLabel->Name = L"dateLabel";
-			this->dateLabel->Size = System::Drawing::Size(100, 17);
+			this->dateLabel->Size = System::Drawing::Size(111, 19);
 			this->dateLabel->TabIndex = 0;
 			this->dateLabel->Text = L"Current Date";
 			this->dateLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
 			// clockLabel
 			// 
+			this->clockLabel->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->clockLabel->AutoSize = true;
-			this->clockLabel->Font = (gcnew System::Drawing::Font(L"Cambria", 11.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->clockLabel->Font = (gcnew System::Drawing::Font(L"Cambria", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->clockLabel->ForeColor = System::Drawing::SystemColors::ControlLight;
-			this->clockLabel->Location = System::Drawing::Point(484, 26);
+			this->clockLabel->Location = System::Drawing::Point(510, 17);
 			this->clockLabel->Name = L"clockLabel";
-			this->clockLabel->Size = System::Drawing::Size(103, 17);
+			this->clockLabel->Size = System::Drawing::Size(113, 19);
 			this->clockLabel->TabIndex = 0;
 			this->clockLabel->Text = L"Current Time";
 			this->clockLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -334,7 +336,7 @@ namespace DoowadoGUI {
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->BorderStyle = MetroFramework::Forms::MetroFormBorderStyle::FixedSingle;
 			this->CausesValidation = false;
-			this->ClientSize = System::Drawing::Size(632, 451);
+			this->ClientSize = System::Drawing::Size(657, 451);
 			this->Controls->Add(this->clockLabel);
 			this->Controls->Add(this->dateLabel);
 			this->Controls->Add(this->FeedbackDisplay);
